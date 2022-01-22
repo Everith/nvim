@@ -13,6 +13,14 @@ local keymap = vim.api.nvim_set_keymap
 -- 'n' normal mode
 -- 'v' visual mode
 
+--Controll keys
+--C = CTRL
+--M = ALT
+--A = ALT
+--leader = " "
+--
+--
+
 --Remap space as leader key
 keymap("", "<Space>", "<Nop>", opts)
 vim.g.mapleader = " "
@@ -22,11 +30,18 @@ keymap('','<leader>sv',':source $MYVIMRC<CR>',opts)
 keymap('','<leader>ev',':e $MYVIMRC<CR>',opts)
 keymap('','<leader>cd',':cd %:h<CR>',opts)
 
+--BUILD.BAT file run and project stuff
+keymap('','<F5>',':lua BuildCodes()<CR>',opts)
+keymap('','<F6>',':w<CR>:cd %:h<CR>:!build\\AoC.exe<CR>',opts)
+keymap('','<F1>',':lua Terminal()<CR>',opts)
+
+--NVUI
+keymap('n', '<F11>', ":NvuiToggleFullscreen<CR>", opts)
 
 --MOUVEMENTS
-keymap('n', '<M-h>', '<C-w><C-h>',opts)  -- Make <C-u> undo-friendly
-keymap('n', '<M-j>', '<C-w><C-j>',opts)  -- Make <C-u> undo-friendly
-keymap('n', '<M-k>', '<C-w><C-k>',opts)  -- Make <C-u> undo-friendly
+keymap('n', '<A-h>', '<C-w><C-h>',opts)  -- Make <C-u> undo-friendly
+keymap('n', '<A-j>', '<C-w><C-j>',opts)  -- Make <C-u> undo-friendly
+keymap('n', '<A-k>', '<C-w><C-k>',opts)  -- Make <C-u> undo-friendly
 keymap('n', '<M-l>', '<C-w><C-l>',opts)  -- Make <C-u> undo-friendly
 -- Resize with arrows
 keymap("n", "<C-Up>", ":resize +2<CR>", opts)

@@ -1,3 +1,5 @@
+vim.opt.termguicolors = true                    -- set term gui colors (most terminals support this)
+
 local colorscheme = "tokyonight"
 
 local status_ok, _ = pcall(vim.cmd, "colorscheme " .. colorscheme)
@@ -6,11 +8,10 @@ if not status_ok then
   return
 end
 
---TODO if statment for themes options
--- vim.cmd 'colorscheme tokyonight'            -- Put your favorite colorscheme here
--- vim.opt.termguicolors = true
--- vim.g.tokyonight_style = 'night' -- available: night, storm
--- vim.g.tokyonight_enable_italic = true 
+-- vim.cmd('hi normal guibg=NONE ctermbg=NONE')
+vim.cmd("NvuiOpacity 0.9")
+vim.g.tokyonight_style = 'night' -- available: night, storm
+vim.g.tokyonight_enable_italic = true
 
 
 --VIM GUI options
