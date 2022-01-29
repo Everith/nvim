@@ -14,7 +14,8 @@ require "everith.fugitive"
 --CHANGE DIR
 --:cd %:h
 --Starting directory
-vim.cmd "cd D:\\Project"
+vim.cmd "cd C:\\Projects"
+--vim.cmd "cd D:\\Project"
 
 -- api.nvim_command('enew') -- equivalent to :enew
 --local cmd = vim.cmd  -- to execute Vim commands e.g. cmd('pwd')
