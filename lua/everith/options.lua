@@ -1,9 +1,9 @@
 -- api.nvim_command('enew') -- equivalent to :enew
 --vim.cmd  -- to execute Vim commands e.g. cmd('pwd')
---vim.fn   -- to call Vim functions e.g. fn.bufnr()
+--vim.fn -> vin.fn.exists('') ==== exists('')  or echo " " | to call Vim functions e.g. fn.bufnr()
 --vim.g    -- a table to access global variables (let g: -> g.)
---vim.opt  -- to set options (set -> opt.)
-
+--vim.opt  -- set 'options' 
+--
 --vim.o  -- controlls global options
 --vim.wo -- controlls local to windows soecific options
 --vim.bo -- controlls local to buffer specific options
@@ -57,5 +57,10 @@ vim.cmd 'au TextYankPost * lua vim.highlight.on_yank {on_visual = false}'  -- di
 --########################################
 --NVUI OPTIONS
 --########################################
-vim.cmd "NvuiFrameless 1"
+if vim.fn.exists('g:nvui') == 1 then
+  vim.cmd "NvuiFrameless 1"
+  vim.cmd "NvuiCmdFontFamily Hack NF:h12"
+  vim.cmd "NvuiCmdFontSize 25.0"
+  vim.cmd "NvuiScrollAnimationDuration 0.2"
+end
 

@@ -9,10 +9,12 @@ if not status_ok then
 end
 
 -- vim.cmd('hi normal guibg=NONE ctermbg=NONE')
-vim.cmd("NvuiOpacity 0.98")
-vim.cmd("NvuiFullscreen 1")
-vim.g.tokyonight_style = 'night' -- available: night, storm
-vim.g.tokyonight_enable_italic = true
+if vim.fn.exists('g:nvui') == 1 then 
+  vim.cmd("NvuiOpacity 0.98")
+  vim.cmd("NvuiFullscreen 1")
+end
+  vim.g.tokyonight_style = 'night' -- available: night, storm
+  vim.g.tokyonight_enable_italic = true
 
 
 --VIM GUI options
