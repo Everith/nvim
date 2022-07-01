@@ -14,7 +14,7 @@ if vim.fn.exists('g:nvui') == 1 then
   vim.cmd("NvuiFullscreen 1")
 end
   vim.g.tokyonight_style = 'night' -- available: night, storm
-  vim.g.tokyonight_enable_italic = true
+--  vim.g.tokyonight_enable_italic = true
 
 
 --VIM GUI options

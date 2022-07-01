@@ -45,6 +45,7 @@ local kind_icons = {
 }
 -- find more here: https://www.nerdfonts.com/cheat-sheet
 
+-- window.documentation = cmp.config.window.border()
 cmp.setup {
   snippet = {
     expand = function(args)

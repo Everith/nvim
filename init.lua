@@ -11,10 +11,11 @@ require "everith.autopairs"
 
 require "everith.galaxyline"
 require "everith.fugitive"
+
 --CHANGE DIR
 --:cd %:h
 --Starting directory
-vim.cmd "cd C:\\Projects"
+--vim.cmd "cd C:\\Projects"
 --vim.cmd "cd D:\\Project"
 
 -- api.nvim_command('enew') -- equivalent to :enew
