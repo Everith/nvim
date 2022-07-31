@@ -1,8 +1,10 @@
+-- require "everith"
 require "everith.scripts"
 require "everith.options"
 require "everith.keymaps"
 require "everith.plugins"
 require "everith.colorscheme"
+
 require "everith.cmp"
 require "everith.lsp"
 require "everith.telescope"

@@ -82,7 +82,7 @@ keymap("t", "<C-l>", "<C-\\><C-N><C-w>l", term_opts)
 -- TELESCOPE ###################################################
 -- keymap("n", "<leader>f", "<cmd>Telescope find_files<cr>", opts)
 keymap("n", "<leader>f", "<cmd>lua require'telescope.builtin'.find_files(require('telescope.themes').get_dropdown({ previewer = false }))<cr>", opts)
-keymap("n", "<c-t>", "<cmd>Telescope live_grep<cr>", opts)
+keymap("n", "<c-o>", "<cmd>Telescope live_grep<cr>", opts)
 
 -- FZF ########################################
 -- keymap('n','<leader>p',':Files<CR>')
@@ -121,12 +121,3 @@ keymap("n", "<c-t>", "<cmd>Telescope live_grep<cr>", opts)
 -- keymap('n', '<C-l>', '<cmd>noh<CR>')    -- Clear highlights
 
 
--- keymap('n', '<leader>,', '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>')
--- keymap('n', '<leader>;', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>')
--- keymap('n', '<leader>a', '<cmd>lua vim.lsp.buf.code_action()<CR>')
--- keymap('n', '<leader>d', '<cmd>lua vim.lsp.buf.definition()<CR>')
--- keymap('n', '<leader>f', '<cmd>lua vim.lsp.buf.formatting()<CR>')
--- keymap('n', '<leader>h', '<cmd>lua vim.lsp.buf.hover()<CR>')
--- keymap('n', '<leader>m', '<cmd>lua vim.lsp.buf.rename()<CR>')
--- keymap('n', '<leader>r', '<cmd>lua vim.lsp.buf.references()<CR>')
--- keymap('n', '<leader>s', '<cmd>lua vim.lsp.buf.document_symbol()<CR>')

@@ -5,10 +5,15 @@ function BuildCodes()
     vim.cmd('w')
     vim.cmd('cd %:h')
     vim.cmd('!build.bat')
-    elseif a == "lua" then
+  elseif a == "lua" then
     vim.cmd('w')
     vim.cmd('cd %:h')
-    vim.cmd('echo "lua file in scri[ts"')
+    vim.cmd('echo "lua file in scripts"')
+  elseif a == "go" then
+    vim.cmd('w')
+    vim.cmd('cd %:h')
+    vim.cmd('echo "Exit with C-c"')
+    vim.cmd('!go run main.go')
   end
 end
 

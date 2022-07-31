@@ -78,6 +78,7 @@ return packer.startup(function(use)
 
   -- STATUS LINE
   use "NTBBloodbath/galaxyline.nvim" -- status line
+  use "kyazdani42/nvim-web-devicons" -- devicons for galaxy-line
 
   --GIT PLUGIN
   use "tpope/vim-fugitive"
@@ -91,7 +92,6 @@ return packer.startup(function(use)
   use "folke/twilight.nvim" -- dim out of scope sections of code
   use "norcalli/nvim-colorizer.lua" -- color code highlight for css or alike
   use "sunjon/Shade.nvim" -- focus on curent window
-  use "kyazdani42/nvim-web-devicons" -- devicons for galaxy-line
 
   --THEMES
   use "ghifarit53/tokyonight-vim"

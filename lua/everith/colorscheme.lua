@@ -9,7 +9,7 @@ if not status_ok then
 end
 
 -- vim.cmd('hi normal guibg=NONE ctermbg=NONE')
-if vim.fn.exists('g:nvui') == 1 then 
+if vim.fn.exists('g:nvui') == 1 then
   vim.cmd("NvuiOpacity 0.98")
   vim.cmd("NvuiFullscreen 1")
 end
