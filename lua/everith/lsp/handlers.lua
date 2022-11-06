@@ -78,7 +78,8 @@ end
 
 M.on_attach = function(client, bufnr)
   if client.name == "tsserver" then
-     client.resolved_capabilities.document_formatting = false
+     -- client.resolved_capabilities.document_formatting = true
+     client.supports_method "textDocument/formatting"
   end
   lsp_keymaps(bufnr)
   lsp_highlight_document(client)
@@ -91,6 +92,6 @@ if not status_ok then
   return
 end
 
-M.capabilities = cmp_nvim_lsp.update_capabilities(capabilities)
+M.capabilities = cmp_nvim_lsp.default_capabilities(capabilities)
 
 return M

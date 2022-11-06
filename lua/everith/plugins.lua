@@ -72,26 +72,29 @@ return packer.startup(function(use)
   -- Treesitter
   use {
     "nvim-treesitter/nvim-treesitter",
-    run = ":TSUpdate",
+    run = function()
+        local ts_update = require('nvim-treesitter.install').update({ with_sync = true })
+        ts_update()
+    end,
   }
   use "p00f/nvim-ts-rainbow"
-
-  -- STATUS LINE
-  use "NTBBloodbath/galaxyline.nvim" -- status line
-  use "kyazdani42/nvim-web-devicons" -- devicons for galaxy-line
-
-  --GIT PLUGIN
-  use "tpope/vim-fugitive"
+-- 
+--   -- STATUS LINE
+--   use "NTBBloodbath/galaxyline.nvim" -- status line
+--   use "kyazdani42/nvim-web-devicons" -- devicons for galaxy-line
+-- 
+--   --GIT PLUGIN
+--   use "tpope/vim-fugitive"
 -----------------------------------------------------------------------
-
-  --testing
-  use "chentau/marks.nvim"
-  use "tversteeg/registers.nvim"
-  use "iamcco/markdown-preview.nvim" --for .md files aka readme
-  use "xiyaowong/nvim-transparent" --transparency for neovim
-  use "folke/twilight.nvim" -- dim out of scope sections of code
-  use "norcalli/nvim-colorizer.lua" -- color code highlight for css or alike
-  use "sunjon/Shade.nvim" -- focus on curent window
+-- 
+--   --testing
+--   use "chentau/marks.nvim"
+--   use "tversteeg/registers.nvim"
+--   use "iamcco/markdown-preview.nvim" --for .md files aka readme
+--   use "xiyaowong/nvim-transparent" --transparency for neovim
+--   use "folke/twilight.nvim" -- dim out of scope sections of code
+--   use "norcalli/nvim-colorizer.lua" -- color code highlight for css or alike
+--   use "sunjon/Shade.nvim" -- focus on curent window
 
   --THEMES
   use "ghifarit53/tokyonight-vim"

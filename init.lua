@@ -10,9 +10,9 @@ require "everith.lsp"
 require "everith.telescope"
 require "everith.treesitter"
 require "everith.autopairs"
-
-require "everith.galaxyline"
-require "everith.fugitive"
+-- 
+-- require "everith.galaxyline"
+-- require "everith.fugitive"
 
 --CHANGE DIR
 --:cd %:h
