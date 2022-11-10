@@ -47,6 +47,8 @@ return packer.startup(function(use)
   use "nvim-lua/popup.nvim" -- An implementation of the Popup API from vim in Neovim
   use "nvim-lua/plenary.nvim" -- Useful lua functions used ny lots of plugins
   use "windwp/nvim-autopairs" -- Autopairs, integrates with both cmp and treesitter
+  use "p00f/nvim-ts-rainbow" -- Adds color codes to ( )
+  use "tpope/vim-surround" -- Add surround functon to "S" in visual mode and more 
 
   -- cmp plugins
   use "hrsh7th/nvim-cmp" -- The completion plugin
@@ -69,7 +71,7 @@ return packer.startup(function(use)
   use "nvim-telescope/telescope.nvim"
   use 'nvim-telescope/telescope-media-files.nvim' -- Image viwer on linux 
 
-  -- Treesitter
+  -- Treesitter adds colors to code
   use {
     "nvim-treesitter/nvim-treesitter",
     run = function()
@@ -77,7 +79,6 @@ return packer.startup(function(use)
         ts_update()
     end,
   }
-  use "p00f/nvim-ts-rainbow"
 -- 
 --   -- STATUS LINE
 --   use "NTBBloodbath/galaxyline.nvim" -- status line
@@ -92,9 +93,31 @@ return packer.startup(function(use)
 --   use "tversteeg/registers.nvim"
 --   use "iamcco/markdown-preview.nvim" --for .md files aka readme
 --   use "xiyaowong/nvim-transparent" --transparency for neovim
---   use "folke/twilight.nvim" -- dim out of scope sections of code
---   use "norcalli/nvim-colorizer.lua" -- color code highlight for css or alike
---   use "sunjon/Shade.nvim" -- focus on curent window
+  use {
+    "folke/twilight.nvim", -- dim out of scope sections of code
+    config = function()
+        require("twilight").setup{
+                -- configuration here
+                dimming = {
+                    alpha = 0.25,
+                    -- color = {"Normal", "#ffffff"},
+                    inactive = false,
+                },
+                context = 10, -- highlight this many lines around cursore
+                treesitter = true, -- use treshitter when avaliable
+                expand = { -- for treeshitter to expand highlith for these types with no limit of line size ?
+                    "function",
+                    "method",
+                    "table",
+                    "if_statement",
+                }
+            }
+        -- exclude = {} -- exclude these file types
+    end,
+    }
+
+    --   use "norcalli/nvim-colorizer.lua" -- color code highlight for css or alike
+    --   use "sunjon/Shade.nvim" -- focus on curent window
 
   --THEMES
   use "ghifarit53/tokyonight-vim"

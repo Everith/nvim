@@ -29,6 +29,7 @@ vim.g.maplocalleader = " "
 keymap('','<leader>sv',':source $MYVIMRC<CR>',opts)
 keymap('','<leader>ev',':e $MYVIMRC<CR>',opts)
 keymap('','<leader>cd',':cd %:h<CR>',opts)
+keymap('n', '<C-l>', '<cmd>noh<CR>', opts)    -- Clear highlights
 
 --BUILD.BAT file run and project stuff
 keymap('','<F5>',':lua BuildCodes()<CR>',opts)
@@ -50,19 +51,19 @@ keymap("n", "<C-Left>", ":vertical resize -2<CR>", opts)
 keymap("n", "<C-Right>", ":vertical resize +2<CR>", opts)
 
 --BUFFERS
-keymap('n', '_', ':bp<cr>',opts)  -- Make <C-u> undo-friendly
-keymap('n', '+', ':bn<cr>',opts)  -- Make <C-u> undo-friendly
+keymap('n', '<c-k>', ':bp<cr>',opts)  -- Make <C-u> undo-friendly
+keymap('n', '<c-j>', ':bn<cr>',opts)  -- Make <C-u> undo-friendly
+keymap('n', '<c-q>', ':bd<cr>',opts)  -- Make <C-u> undo-friendly
 
 
 -- Visual --
--- Stay in indent mode
-keymap("v", "<", "<gv", opts)
-keymap("v", ">", ">gv", opts)
-
+-- ndent 
+keymap("v", "<s-Tab>", "<gv", opts)
+keymap("v", "<Tab>", ">gv", opts)
 -- Move text up and down
-keymap("v", "<A-j>", ":m .+1<CR>==", opts)
 keymap("v", "<A-k>", ":m .-2<CR>==", opts)
-keymap("v", "p", '"_dP', opts)
+keymap("v", "<A-j>", ":m .+1<CR>==", opts)
+keymap("v", "p", '"_dP', opts) -- replace line or selected text
 
 -- Visual Block --
 -- Move text up and down
@@ -75,14 +76,22 @@ keymap("x", "<A-k>", ":move '<-2<CR>gv-gv", opts)
 -- Better terminal navigation
 keymap("t", "<C-h>", "<C-\\><C-N><C-w>h", term_opts)
 keymap("t", "<C-j>", "<C-\\><C-N><C-w>j", term_opts)
-keymap("t", "<C-k>", "<C-\\><C-N><C-w>k", term_opts)
+keymap("t", "<Esc>", "<C-\\><C-N><C-w>k", term_opts)
 keymap("t", "<C-l>", "<C-\\><C-N><C-w>l", term_opts)
 
 -- PLUGINS
+-- LSP ##############################################################
+-- <Tab> to navigate the completion menu
+-- keymap('i', '<S-Tab>', 'pumvisible() ? "\\<C-p>" : "\\<Tab>"', {expr = true})
+keymap('i', '<Tab>', 'pumvisible() ? "\\<CR>" : "\\<Tab>"', {expr = true})
+--
 -- TELESCOPE ###################################################
 -- keymap("n", "<leader>f", "<cmd>Telescope find_files<cr>", opts)
-keymap("n", "<leader>f", "<cmd>lua require'telescope.builtin'.find_files(require('telescope.themes').get_dropdown({ previewer = false }))<cr>", opts)
-keymap("n", "<c-o>", "<cmd>Telescope live_grep<cr>", opts)
+keymap("n", "<leader>tf", "<cmd>lua require'telescope.builtin'.find_files(require('telescope.themes').get_dropdown({ previewer = false }))<cr>", opts)
+keymap("n", "<leader>tg", "<cmd>Telescope live_grep<cr>", opts)
+
+-- Twilight ############################################################
+keymap("n", "<leader>hh", "<cmd>Twilight<cr>", opts)
 
 -- FZF ########################################
 -- keymap('n','<leader>p',':Files<CR>')
@@ -113,11 +122,5 @@ keymap("n", "<c-o>", "<cmd>Telescope live_grep<cr>", opts)
 --:Filetypes	
 
 
-
--- <Tab> to navigate the completion menu
--- keymap('i', '<S-Tab>', 'pumvisible() ? "\\<C-p>" : "\\<Tab>"', {expr = true})
--- keymap('i', '<Tab>', 'pumvisible() ? "\\<C-n>" : "\\<Tab>"', {expr = true})
-
--- keymap('n', '<C-l>', '<cmd>noh<CR>')    -- Clear highlights
 
 
