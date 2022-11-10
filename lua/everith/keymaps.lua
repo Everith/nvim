@@ -32,10 +32,10 @@ keymap('','<leader>cd',':cd %:h<CR>',opts)
 keymap('n', '<C-l>', '<cmd>noh<CR>', opts)    -- Clear highlights
 
 --BUILD.BAT file run and project stuff
+
 keymap('','<F5>',':lua BuildCodes()<CR>',opts)
 keymap('','<F6>',':w<CR>:cd %:h<CR>:!build\\AoC.exe<CR>',opts)
 keymap('','<F1>',':lua Terminal()<CR>',opts)
-
 --NVUI
 keymap('n', '<F11>', ":NvuiToggleFullscreen<CR>", opts)
 
@@ -63,7 +63,6 @@ keymap("v", "<Tab>", ">gv", opts)
 -- Move text up and down
 keymap("v", "<A-k>", ":m .-2<CR>==", opts)
 keymap("v", "<A-j>", ":m .+1<CR>==", opts)
-keymap("v", "p", '"_dP', opts) -- replace line or selected text
 
 -- Visual Block --
 -- Move text up and down
@@ -71,6 +70,8 @@ keymap("x", "J", ":move '>+1<CR>gv-gv", opts)
 keymap("x", "K", ":move '<-2<CR>gv-gv", opts)
 keymap("x", "<A-j>", ":move '>+1<CR>gv-gv", opts)
 keymap("x", "<A-k>", ":move '<-2<CR>gv-gv", opts)
+keymap("x", "p", '"_c<C-r>\"<Esc>', opts) -- replace line or selected text
+keymap("x", "P", "I<C-r>\"<Esc>", opts)
 
 -- Terminal --
 -- Better terminal navigation
@@ -81,6 +82,22 @@ keymap("t", "<C-l>", "<C-\\><C-N><C-w>l", term_opts)
 
 -- PLUGINS
 -- LSP ##############################################################
+keymap("n", "<leader>lD", "<cmd>lua vim.lsp.buf.declaration()<CR>", opts)
+keymap("n", "<leader>ld", "<cmd>lua vim.lsp.buf.definition()<CR>", opts)
+keymap("n", "<leader>lk", "<cmd>lua vim.lsp.buf.hover()<CR>", opts)
+keymap("n", "<leader>li", "<cmd>lua vim.lsp.buf.implementation()<CR>", opts)
+keymap("n", "<leader>lh", "<cmd>lua vim.lsp.buf.signature_help()<CR>", opts)
+keymap("n", "<leader>r", "<cmd>lua vim.lsp.buf.rename()<CR>", opts)
+keymap("n", "<leader>lr", "<cmd>lua vim.lsp.buf.references()<CR>", opts)
+keymap("n", "<leader>la", "<cmd>lua vim.lsp.buf.code_action()<CR>", opts)
+--  -- vim.api.nvim_buf_set_keymap(bufnr, "n", "<leader>lp", '<cmd>lua vim.diagnostic.goto_prev({ border = "rounded" })<CR>', opts)
+--  -- vim.api.nvim_buf_set_keymap(bufnr, "n", "<leader>ln", '<cmd>lua vim.diagnostic.goto_next({ border = "rounded" })<CR>', opts)
+keymap("n", "<leader>le", "<cmd>lua vim.diagnostic.setloclist()<CR>", opts)
+keymap("n", "<leader>F2", 'lua vim.lsp.buf.formatting()', opts)
+--  vim.cmd [[ command! Format execute 'lua vim.lsp.buf.formatting()' ]]
+
+--
+--
 -- <Tab> to navigate the completion menu
 -- keymap('i', '<S-Tab>', 'pumvisible() ? "\\<C-p>" : "\\<Tab>"', {expr = true})
 keymap('i', '<Tab>', 'pumvisible() ? "\\<CR>" : "\\<Tab>"', {expr = true})
