@@ -1,27 +1,27 @@
 local fn = vim.fn
 
 -- Automatically install packer
-local install_path = fn.stdpath "data" .. "/site/pack/packer/start/packer.nvim"
+local install_path = fn.stdpath("data") .. "/site/pack/packer/start/packer.nvim"
 if fn.empty(fn.glob(install_path)) > 0 then
-  PACKER_BOOTSTRAP = fn.system {
+  PACKER_BOOTSTRAP = fn.system({
     "git",
     "clone",
     "--depth",
     "1",
     "https://github.com/wbthomason/packer.nvim",
     install_path,
-  }
-  print "Installing packer close and reopen Neovim..."
-  vim.cmd [[packadd packer.nvim]]
+  })
+  print("Installing packer close and reopen Neovim...")
+  vim.api.nvim_command("packadd packer.nvim")
 end
 
 -- Autocommand that reloads neovim whenever you save the plugins.lua file
-vim.cmd [[
+vim.cmd([[
   augroup packer_user_config
     autocmd!
     autocmd BufWritePost plugins.lua source <afile> | PackerSync
   augroup end
-]]
+]])
 
 -- Use a protected call so we don't error out on first use
 local status_ok, packer = pcall(require, "packer")
@@ -30,97 +30,310 @@ if not status_ok then
 end
 
 -- Have packer use a popup window
-packer.init {
+packer.init({
   display = {
     open_fn = function()
-      return require("packer.util").float { border = "rounded" }
+      return require("packer.util").float({ border = "rounded" })
     end,
   },
-}
+})
+
+local function get_config(name)
+  return string.format('require("everith/%s")', name)
+end
 
 -- #########################
 -- Install your plugins here
 -- #########################
 return packer.startup(function(use)
+  use("wbthomason/packer.nvim") -- Have packer manage itself
+  -- NOTE: Packer plugin template
+  -- -- use {
+  -- --   'myusername/example',        -- The plugin location string
+  -- --   -- The following keys are all optional
+  -- --   disable = boolean,           -- Mark a plugin as inactive
+  -- --   as = string,                 -- Specifies an alias under which to install the plugin
+  -- --   installer = function,        -- Specifies custom installer. See "custom installers" below.
+  -- --   updater = function,          -- Specifies custom updater. See "custom installers" below.
+  -- --   after = string or list,      -- Specifies plugins to load before this plugin. See "sequencing" below
+  -- --   rtp = string,                -- Specifies a subdirectory of the plugin to add to runtimepath.
+  -- --   opt = boolean,               -- Manually marks a plugin as optional.
+  -- --   bufread = boolean,           -- Manually specifying if a plugin needs BufRead after being loaded
+  -- --   branch = string,             -- Specifies a git branch to use
+  -- --   tag = string,                -- Specifies a git tag to use. Supports '*' for "latest tag"
+  -- --   commit = string,             -- Specifies a git commit to use
+  -- --   lock = boolean,              -- Skip updating this plugin in updates/syncs. Still cleans.
+  -- --   run = string, function, or table, -- Post-update/install hook. See "update/install hooks".
+  -- --   requires = string or list,   -- Specifies plugin dependencies. See "dependencies".
+  -- --   rocks = string or list,      -- Specifies Luarocks dependencies for the plugin
+  -- --   config = string or function, -- Specifies code to run after this plugin is loaded.
+  -- --   -- The setup key implies opt = true
+  -- --   setup = string or function,  -- Specifies code to run before this plugin is loaded.
+  -- --   -- The following keys all imply lazy-loading and imply opt = true
+  -- --   cmd = string or list,        -- Specifies commands which load this plugin. Can be an autocmd pattern.
+  -- --   ft = string or list,         -- Specifies filetypes which load this plugin.
+  -- --   keys = string or list,       -- Specifies maps which load this plugin. See "Keybindings".
+  -- --   event = string or list,      -- Specifies autocommand events which load this plugin.
+  -- --   fn = string or list          -- Specifies functions which load this plugin.
+  -- --   cond = string, function, or list of strings/functions,   -- Specifies a conditional test to load this plugin
+  -- --   module = string or list      -- Specifies Lua module names for require. When requiring a string which starts
+  -- --                                -- with one of these module names, the plugin will be loaded.
+  -- --   module_pattern = string/list -- Specifies Lua pattern of Lua module names for require. When requiring a string which matches one of these patterns, the plugin will be loaded.
+  -- -- }
+
   -- My plugins here
-  use "wbthomason/packer.nvim" -- Have packer manage itself
-  use "nvim-lua/popup.nvim" -- An implementation of the Popup API from vim in Neovim
-  use "nvim-lua/plenary.nvim" -- Useful lua functions used ny lots of plugins
-  use "windwp/nvim-autopairs" -- Autopairs, integrates with both cmp and treesitter
-  use "p00f/nvim-ts-rainbow" -- Adds color codes to ( )
-  use "tpope/vim-surround" -- Add surround functon to "S" in visual mode and more 
+  use("tpope/vim-surround") -- Add surround functon to "S" in visual mode and more
+  use({
+    "windwp/nvim-autopairs",
+    config = get_config("nvim-autopairs"),
+  })
+  --WARN: not working ?
+  use({
+    "aarondiel/spread.nvim",
+    after = "nvim-treesitter",
+    config = get_config("spread"),
+  })
 
-  -- cmp plugins
-  use "hrsh7th/nvim-cmp" -- The completion plugin
-  use "hrsh7th/cmp-buffer" -- buffer completions
-  use "hrsh7th/cmp-path" -- path completions
-  use "hrsh7th/cmp-cmdline" -- cmdline completions
-  use "saadparwaiz1/cmp_luasnip" -- snippet completions
-  use "hrsh7th/cmp-nvim-lsp"
-  use "hrsh7th/cmp-nvim-lua"
-
-  -- snippets
-  use "L3MON4D3/LuaSnip" --snippet engine
-  use "rafamadriz/friendly-snippets" -- a bunch of snippets to use
-
-  -- LSP
-  use "neovim/nvim-lspconfig" -- enable LSP
-  use "williamboman/nvim-lsp-installer" -- simple to use language server installer
-
-  -- Telescope
-  use "nvim-telescope/telescope.nvim"
-  use 'nvim-telescope/telescope-media-files.nvim' -- Image viwer on linux 
-
-  -- Treesitter adds colors to code
-  use {
+  --NOTE: nvim-treesitter
+  use({
     "nvim-treesitter/nvim-treesitter",
-    run = function()
-        local ts_update = require('nvim-treesitter.install').update({ with_sync = true })
-        ts_update()
-    end,
-  }
--- 
---   -- STATUS LINE
---   use "NTBBloodbath/galaxyline.nvim" -- status line
---   use "kyazdani42/nvim-web-devicons" -- devicons for galaxy-line
--- 
---   --GIT PLUGIN
---   use "tpope/vim-fugitive"
------------------------------------------------------------------------
--- 
---   --testing
---   use "chentau/marks.nvim"
---   use "tversteeg/registers.nvim"
---   use "iamcco/markdown-preview.nvim" --for .md files aka readme
---   use "xiyaowong/nvim-transparent" --transparency for neovim
-  use {
-    "folke/twilight.nvim", -- dim out of scope sections of code
+    config = get_config("treesitter"),
+    run = ":TSUpdate",
+  })
+  use({
+    "nvim-treesitter/nvim-treesitter-textobjects",
+    after = "nvim-treesitter",
+  })
+  use({
+    "RRethy/nvim-treesitter-endwise",
+    after = "nvim-treesitter",
+  })
+  use({
+    "p00f/nvim-ts-rainbow",
+    after = "nvim-treesitter",
+  })
+
+  --NOTE: Auto complete
+  use({
+    "hrsh7th/nvim-cmp",
+    requires = {
+      "hrsh7th/cmp-nvim-lsp",
+      "hrsh7th/cmp-buffer",
+      "hrsh7th/cmp-path",
+      "hrsh7th/cmp-cmdline",
+      "hrsh7th/cmp-calc",
+      "lukas-reineke/cmp-rg",
+      "hrsh7th/cmp-nvim-lsp-signature-help",
+    },
+    config = get_config("cmp"),
+  })
+  use({ "rafamadriz/friendly-snippets" })
+  use({
+    "L3MON4D3/LuaSnip",
+    requires = "saadparwaiz1/cmp_luasnip",
+    config = get_config("luasnip"),
+  })
+
+  --NOTE: LSP
+  use({
+    "neovim/nvim-lspconfig",
+    config = get_config("lsp.lsp"),
+  })
+  use({ "onsails/lspkind-nvim" })
+  use({
+    "jose-elias-alvarez/null-ls.nvim",
+    requires = { { "nvim-lua/plenary.nvim" } },
+    config = get_config("lsp.null-ls"),
+  })
+  use({ "SmiteshP/nvim-navic" })
+  use({
+    "williamboman/mason.nvim",
+    cmd = "Mason*",
+    module = "mason-tool-installer",
+    requires = {
+      "williamboman/mason-lspconfig.nvim",
+      "WhoIsSethDaniel/mason-tool-installer.nvim",
+    },
+    config = get_config("lsp.mason"),
+  })
+  use({
+    "folke/neodev.nvim",
     config = function()
-        require("twilight").setup{
-                -- configuration here
-                dimming = {
-                    alpha = 0.25,
-                    -- color = {"Normal", "#ffffff"},
-                    inactive = false,
-                },
-                context = 10, -- highlight this many lines around cursore
-                treesitter = true, -- use treshitter when avaliable
-                expand = { -- for treeshitter to expand highlith for these types with no limit of line size ?
-                    "function",
-                    "method",
-                    "table",
-                    "if_statement",
-                }
-            }
-        -- exclude = {} -- exclude these file types
+      require("neodev").setup()
     end,
-    }
+    before = "nvim-lspconfig",
+  })
 
-    --   use "norcalli/nvim-colorizer.lua" -- color code highlight for css or alike
-    --   use "sunjon/Shade.nvim" -- focus on curent window
+  --NOTE: FILE searching with telescope
+  use({
+    "nvim-telescope/telescope.nvim",
+    requires = { "nvim-lua/popup.nvim", "nvim-lua/plenary.nvim" },
+    cmd = "Telescope",
+    module = "telescope",
+    config = get_config("telescope"),
+  })
+  -- Extensions:
+  use({ "jvgrootveld/telescope-zoxide" })
+  use({ "crispgm/telescope-heading.nvim" })
+  use({ "nvim-telescope/telescope-symbols.nvim" })
+  use({ "nvim-telescope/telescope-file-browser.nvim" })
+  use({ "nvim-telescope/telescope-packer.nvim" })
+  use({ "nvim-telescope/telescope-ui-select.nvim" })
+  use({ "ptethng/telescope-makefile" })
 
-  --THEMES
-  use "ghifarit53/tokyonight-vim"
+  --NOTE: DEBUGING tools
+  use({
+    "mfussenegger/nvim-dap",
+    requires = {
+      "mfussenegger/nvim-dap-python",
+      "leoluz/nvim-dap-go",
+      "rcarriga/nvim-dap-ui",
+      "theHamsta/nvim-dap-virtual-text",
+    },
+  })
+
+  --NOTE: GO
+  use({
+    "ray-x/go.nvim",
+    requires = "ray-x/guihua.lua",
+    config = get_config("go"),
+    ft = { "go" },
+  })
+
+  --NPTE: GIT
+  use({
+    "TimUntersberger/neogit",
+    requires = {
+      "nvim-lua/plenary.nvim",
+      {
+        "sindrets/diffview.nvim",
+        cmd = {
+          "DiffviewOpen",
+          "DiffviewClose",
+          "DiffviewToggleFiles",
+          "DiffviewFocusFiles",
+        },
+        config = get_config("git.diffview"),
+      },
+    },
+    module = "neogit",
+    config = get_config("git.neogit"),
+  })
+  use({
+    "lewis6991/gitsigns.nvim",
+    requires = { "nvim-lua/plenary.nvim" },
+    config = get_config("git.gitsigns"),
+  })
+  use({ "tpope/vim-fugitive" }) -- yeah this is not lua but one of the best Vim plugins ever
+
+  --NOTE: RICE
+  use({
+    "folke/todo-comments.nvim",
+    requires = "nvim-lua/plenary.nvim",
+    config = get_config("todo"),
+  })
+  use({
+    "LudoPinelli/comment-box.nvim",
+    cmd = "CB*",
+    config = get_config("comment-box"),
+  })
+  use({
+    "https://gitlab.com/yorickpeterse/nvim-pqf.git",
+    config = function()
+      require("pqf").setup()
+    end,
+  })
+  use({ "vimpostor/vim-tpipeline" }) -- tmux status line union with nvim statusline
+  use({
+    "folke/noice.nvim",
+    event = "VimEnter",
+    config = get_config("noice"),
+    requires = {
+      "MunifTanjim/nui.nvim",
+      {
+        "rcarriga/nvim-notify",
+        config = get_config("notify"),
+      },
+    },
+  })
+  use("ghifarit53/tokyonight-vim")
+
+  use({
+    "anuvyklack/hydra.nvim",
+    requires = "anuvyklack/keymap-layer.nvim", -- needed only for pink hydras
+    commit = "ea91aa820a6cecc57bde764bb23612fff26a15de",
+    config = get_config("hydra"),
+  })
+  use({ "folke/which-key.nvim", config = get_config("which-key") })
+
+  --TODO: need place
+  use({
+    "anuvyklack/windows.nvim",
+    event = "VimEnter",
+    requires = {
+      "anuvyklack/middleclass",
+      "anuvyklack/animation.nvim",
+    },
+    config = get_config("windows"),
+  })
+  use({ "tweekmonster/startuptime.vim" })
+  use({
+    "nvim-neo-tree/neo-tree.nvim",
+    branch = "v2.x",
+    cmd = "NeoTree*",
+    requires = {
+      {
+        "s1n7ax/nvim-window-picker", -- only needed if you want to use the commands with "_with_window_picker" suffix
+        config = get_config("window-picker"),
+      },
+      "nvim-lua/plenary.nvim",
+      "kyazdani42/nvim-web-devicons",
+      "MunifTanjim/nui.nvim",
+    },
+    config = get_config("neotree"),
+  })
+  use({
+    "kevinhwang91/nvim-bqf",
+    requires = {
+      "junegunn/fzf",
+      module = "nvim-bqf",
+    },
+    ft = "qf",
+    config = get_config("nvim-bqf"),
+  })
+  use({
+    "lukas-reineke/indent-blankline.nvim",
+    event = "BufReadPre",
+    config = get_config("indent-blankline"),
+  })
+
+  -- WARN:  needs trying
+  --   use({ "rhysd/vim-grammarous", ft = { "markdown", "latex" }, config = get_config("grammarous") })
+  --   use({ "echasnovski/mini.nvim", branch = "main", config = get_config("mini") })
+  --   use({ "axieax/urlview.nvim", cmd = "Urlview", config = get_config("urlview") })
+  --   use({ "famiu/bufdelete.nvim" })
+  --
+  --   use({ "mfussenegger/nvim-ts-hint-textobject" })
+  --   use({
+  --     "windwp/nvim-ts-autotag",
+  --     config = function()
+  --       require("nvim-ts-autotag").setup()
+  --     end,
+  --   })
+  --   use({
+  --     "ironhouzi/starlite-nvim",
+  --     config = get_config("starlite-nvim"),
+  --   })
+  --
+  --   use({ "numToStr/Navigator.nvim", config = get_config("navigator") })
+  --
+  -- --   use({
+  -- --     "kevinhwang91/nvim-ufo",
+  -- --     requires = "kevinhwang91/promise-async",
+  -- --     config = function()
+  -- --       require("ufo").setup()
+  -- --     end,
+  -- --   })
 
   -- Automatically set up your configuration after cloning packer.nvim
   -- Put this at the end after all plugins

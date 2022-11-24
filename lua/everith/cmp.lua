@@ -1,21 +1,17 @@
-local cmp_status_ok, cmp = pcall(require, "cmp")
-if not cmp_status_ok then
+local status_ok, cmp = pcall(require, "cmp")
+if not status_ok then
     print("CMP cant be imported")
   return
 end
 
-local snip_status_ok, luasnip = pcall(require, "luasnip")
-if not snip_status_ok then
+local status_ok, luasnip = pcall(require, "luasnip")
+if not status_ok then
     print("luasip cant be imported")
   return
 end
 
+local lspkind = require("lspkind")
 require("luasnip/loaders/from_vscode").lazy_load()
-
-local check_backspace = function()
-  local col = vim.fn.col "." - 1
-  return col == 0 or vim.fn.getline("."):sub(col, col):match "%s"
-end
 
 --   פּ ﯟ   some other good icons
 local kind_icons = {
@@ -75,8 +71,6 @@ cmp.setup {
         luasnip.expand()
       elseif luasnip.expand_or_jumpable() then
         luasnip.expand_or_jump()
-      elseif check_backspace() then
-        fallback()
       else
         fallback()
       end
@@ -115,10 +109,13 @@ cmp.setup {
   },
   sources = {
     { name = "nvim_lsp" },
+    { name = "nvim_lsp_signature_help" },
     { name = "nvim_lua" },
     { name = "luasnip" },
-    { name = "buffer" },
+    { name = "buffer", keyword_length = 3 },
+    { name = "calc" },
     { name = "path" },
+    { name = "rg", keyword_length = 5 },
   },
   confirm_opts = {
     behavior = cmp.ConfirmBehavior.Replace,

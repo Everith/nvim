@@ -1,18 +1,10 @@
 -- require "everith"
-require "everith.scripts"
-require "everith.options"
-require "everith.keymaps"
-require "everith.plugins"
-require "everith.colorscheme"
+require("everith.plugins")
+require("everith.colorscheme")
 
-require "everith.cmp"
-require "everith.lsp"
-require "everith.telescope"
-require "everith.treesitter"
-require "everith.autopairs"
--- 
--- require "everith.galaxyline"
--- require "everith.fugitive"
+require("everith.options")
+require("everith.scripts")
+require("everith.keymaps")
 
 --CHANGE DIR
 --:cd %:h
