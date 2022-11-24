@@ -54,17 +54,17 @@ require("mason-tool-installer").setup({
     "gopls",
     "html-lsp",
     -- Formatter
-    --    "black",
+    -- "black",
     "prettier",
     "stylua",
     -- Linter
-    --    "eslint_d",
+    "eslint_d",
     "shellcheck",
-    --    "tflint",
-    --    "vale",
-    --    "yamllint",
+    "tflint",
+    "vale",
+    -- "yamllint",
     -- DAP
-    --    "debugpy",
+    -- "debugpy",
   },
 
   -- if set to true this will check each tool for updates. If updates

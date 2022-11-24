@@ -4,17 +4,28 @@ if not status_ok then
   return
 end
 
-configs.setup {
+configs.setup({
   ensure_installed = {
-        "lua",
-        "cpp",
-        "python",
-        "rust",
-        "go",
-        "html",
-        "css",
-        "javascript"
-    }, -- one of "all", "maintained" (parsers with maintainers), or a list of languages
+    "lua",
+    "cpp",
+    "python",
+    "rust",
+    "go",
+    "html",
+    "css",
+    "javascript",
+    "bash",
+    "cmake",
+    "dockerfile",
+    "hcl",
+    "json",
+    "markdown",
+    "markdown_inline",
+    "regex",
+    "toml",
+    "vim",
+    "yaml",
+  }, -- one of "all", "maintained" (parsers with maintainers), or a list of languages
   ignore_install = { "" }, -- List of parsers to ignore installing
   sync_install = true, -- install languages synchronously (only applied to `ensure_installed`)
   highlight = {
@@ -35,20 +46,20 @@ configs.setup {
     enable = true,
   },
   indent = {
-        enable = true,
-        disable = { "yaml" }
-    },
+    enable = true,
+    disable = { "yaml" },
+  },
   autopairs = {
-        enable = true
-    },
+    enable = true,
+  },
   rainbow = {
-      enable = true,
-      -- disable = { "jsx", "cpp" }, list of languages you want to disable the plugin for
-      extended_mode = true, -- Also highlight non-bracket delimiters like html tags, boolean or table: lang -> boolean
-      max_file_lines = nil, -- Do not enable for files with more than n lines, int
-      -- colors = {}, -- table of hex strings
-      -- termcolors = {} -- table of colour name strings
-    },
+    enable = true,
+    -- disable = { "jsx", "cpp" }, list of languages you want to disable the plugin for
+    extended_mode = true, -- Also highlight non-bracket delimiters like html tags, boolean or table: lang -> boolean
+    max_file_lines = nil, -- Do not enable for files with more than n lines, int
+    -- colors = {}, -- table of hex strings
+    -- termcolors = {} -- table of colour name strings
+  },
   textobjects = {
     select = {
       enable = true,
@@ -69,4 +80,4 @@ configs.setup {
       },
     },
   },
-}
+})

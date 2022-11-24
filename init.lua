@@ -5,6 +5,7 @@ require("everith.colorscheme")
 require("everith.options")
 require("everith.scripts")
 require("everith.keymaps")
+require("everith.autocmd")
 
 --CHANGE DIR
 --:cd %:h

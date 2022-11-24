@@ -1,28 +1,39 @@
 --MY SCRIPTS FOR TIHNGS
 function BuildCodes()
-  local a = vim.bo.filetype
-  if a == "cpp" then
-    vim.cmd('w')
-    vim.cmd('cd %:h')
-    vim.cmd('!build.bat')
-  elseif a == "lua" then
-    vim.cmd('w')
-    vim.cmd('cd %:h')
+  local fileType = vim.bo.filetype
+  if fileType == "cpp" then
+    vim.cmd("w")
+    vim.cmd("cd %:h")
+    vim.cmd("!build.bat")
+  elseif fileType == "lua" then
+    vim.cmd("w")
+    vim.cmd("cd %:h")
     vim.cmd('echo "lua file in scripts"')
-  elseif a == "go" then
-    vim.cmd('w')
-    vim.cmd('cd %:h')
+  elseif fileType == "go" then
+    vim.cmd("w")
+    vim.cmd("cd %:h")
     vim.cmd('echo "Exit with C-c"')
-    vim.cmd('!go run main.go')
+    vim.cmd("!go run main.go")
+  end
+end
+
+function GetManual()
+  local fileType = vim.bo.filetype
+  if fileType == "cpp" then
+    vim.cmd("lua vim.lsp.buf.signature_help()")
+  elseif fileType == "lua" then
+    vim.cmd("lua vim.lsp.buf.signature_help()")
+  elseif fileType == "go" then
+    vim.cmd("GoDoc")
   end
 end
 
 function Terminal()
-  local a = vim.fn.expand('%:t')
+  local a = vim.fn.expand("%:t")
   if a == "cmd.exe" then
-    vim.cmd('bd!')
+    vim.cmd("bd!")
   else
-    vim.cmd('sp')
+    vim.cmd("sp")
     vim.cmd("terminal")
   end
 end

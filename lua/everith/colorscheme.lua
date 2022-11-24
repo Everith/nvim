@@ -1,4 +1,4 @@
-vim.opt.termguicolors = true                    -- set term gui colors (most terminals support this)
+vim.opt.termguicolors = true -- set term gui colors (most terminals support this)
 
 local colorscheme = "tokyonight"
 
@@ -9,13 +9,12 @@ if not status_ok then
 end
 
 -- vim.cmd('hi normal guibg=NONE ctermbg=NONE')
-if vim.fn.exists('g:nvui') == 1 then
+if vim.fn.exists("g:nvui") == 1 then
   vim.cmd("NvuiOpacity 0.98")
   vim.cmd("NvuiFullscreen 1")
 end
-  vim.g.tokyonight_style = 'night' -- available: night, storm
+vim.g.tokyonight_style = "night" -- available: night, storm
 --  vim.g.tokyonight_enable_italic = true
-
 
 --VIM GUI options
 -- vim.g.neovide_transparency = 0.9
