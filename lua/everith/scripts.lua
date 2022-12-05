@@ -13,7 +13,7 @@ function BuildCodes()
     vim.cmd("w")
     vim.cmd("cd %:h")
     vim.cmd('echo "Exit with C-c"')
-    vim.cmd("!go run main.go")
+    vim.cmd("!go run .")
   end
 end
 
