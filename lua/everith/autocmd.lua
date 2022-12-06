@@ -1,11 +1,11 @@
 local api = vim.api
 
 -- Remove all trailing whitespace on save
-local TrimWhiteSpaceGrp = api.nvim_create_augroup("TrimWhiteSpaceGrp", { clear = true })
-api.nvim_create_autocmd("BufWritePre", {
-  command = [[:%s/\s\+$//e]],
-  group = TrimWhiteSpaceGrp,
-})
+-- local TrimWhiteSpaceGrp = api.nvim_create_augroup("TrimWhiteSpaceGrp", { clear = true })
+-- api.nvim_create_autocmd("BufWritePre", {
+--   command = [[:%s/\s\+$//e]],
+--   group = TrimWhiteSpaceGrp,
+-- })
 
 -- Highlight on yank
 local yankGrp = api.nvim_create_augroup("YankHighlight", { clear = true })
@@ -19,11 +19,11 @@ api.nvim_create_autocmd("TextYankPost", {
 -- --   { command = [[if line("'\"") > 1 && line("'\"") <= line("$") | execute "normal! g`\"" | endif]] }
 -- -- )
 -- -- -- windows to close with "q"
-api.nvim_create_autocmd("FileType", {
-  pattern = { "help", "startuptime", "qf", "fugitive", "null-ls-info", "dap-float" },
-  command = [[nnoremap <buffer><silent> q :close<CR>]],
-})
-api.nvim_create_autocmd("FileType", { pattern = "man", command = [[nnoremap <buffer><silent> q :quit<CR>]] })
+-- api.nvim_create_autocmd("FileType", {
+--   pattern = { "help", "startuptime", "qf", "fugitive", "null-ls-info", "dap-float" },
+--   command = [[nnoremap <buffer><silent> q :close<CR>]],
+-- })
+-- api.nvim_create_autocmd("FileType", { pattern = "man", command = [[nnoremap <buffer><silent> q :quit<CR>]] })
 -- --
 -- -- -- disable list option in certain filetypes
 -- -- api.nvim_create_autocmd("FileType", { pattern = { "NeoGitStatus" }, command = [[setlocal list!]] })

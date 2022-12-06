@@ -102,10 +102,32 @@ keymap("n", "<leader>la", "<cmd>lua vim.lsp.buf.code_action()<CR>", opts)
 keymap("n", "<leader>le", "<cmd>lua vim.diagnostic.setloclist()<CR>", opts)
 keymap("n", "<leader>F2", "lua vim.lsp.buf.formatting()", opts)
 
--- <Tab> to navigate the completion menu
--- keymap('i', '<S-Tab>', 'pumvisible() ? "\\<C-p>" : "\\<Tab>"', {expr = true})
--- keymap("i", "<Tab>", 'pumvisible() ? "\\<CR>" : "\\<Tab>"', { expr = true })
---
+-- LUASNIP #############################################################
+local status_ok, luasnip = pcall(require, "luasnip")
+if not status_ok then
+  return
+end
+-- expansion key
+-- this will expand the current item or jump to the next item within the snippet.
+vim.keymap.set({ "i", "s" }, "<c-j>", function()
+  if luasnip.expand_or_jumpable() then
+    luasnip.expand_or_jump()
+  end
+end, { silent = true })
+-- jump backwards key.
+-- this always moves to the previous item within the snippet
+vim.keymap.set({ "i", "s" }, "<c-k>", function()
+  if luasnip.jumpable(-1) then
+    luasnip.jump(-1)
+  end
+end, { silent = true })
+-- selecting within a list of options.
+vim.keymap.set("i", "<c-h>", function()
+  if luasnip.choice_active() then
+    luasnip.change_choice(1)
+  end
+end)
+
 -- TELESCOPE ###################################################
 -- keymap("n", "<leader>f", "<cmd>Telescope find_files<cr>", opts)
 keymap(
@@ -143,3 +165,91 @@ keymap("n", "<leader>tg", "<cmd>Telescope live_grep<cr>", opts)
 --:Maps
 --:Helptags
 --:Filetypes
+local wk = require("which-key")
+local default_options = { silent = true }
+wk.register({
+  c = {
+    name = "Coding GO",
+    a = { "<cmd>GoCodeAction<cr>", "Code action" },
+    e = { "<cmd>GoIfErr<cr>", "Add if err" },
+    h = {
+      name = "Helper",
+      a = { "<cmd>GoAddTag<cr>", "Add tags to struct" },
+      r = { "<cmd>GoRMTag<cr>", "Remove tags to struct" },
+      c = { "<cmd>GoCoverage<cr>", "Test coverage" },
+      g = { "<cmd>lua require('go.comment').gen()<cr>", "Generate comment" },
+      v = { "<cmd>GoVet<cr>", "Go vet" },
+      t = { "<cmd>GoModTidy<cr>", "Go mod tidy" },
+      i = { "<cmd>GoModInit<cr>", "Go mod init" },
+    },
+    i = { "<cmd>GoToggleInlay<cr>", "Toggle inlay" },
+    l = { "<cmd>GoLint<cr>", "Run linter" },
+    o = { "<cmd>GoPkgOutline<cr>", "Outline" },
+    r = { "<cmd>GoRun<cr>", "Run" },
+    s = { "<cmd>GoFillStruct<cr>", "Autofill struct" },
+    t = {
+      name = "Tests",
+      r = { "<cmd>GoTest<cr>", "Run tests" },
+      a = { "<cmd>GoAlt!<cr>", "Open alt file" },
+      s = { "<cmd>GoAltS!<cr>", "Open alt file in split" },
+      v = { "<cmd>GoAltV!<cr>", "Open alt file in vertical split" },
+      u = { "<cmd>GoTestFunc<cr>", "Run test for current func" },
+      f = { "<cmd>GoTestFile<cr>", "Run test for current file" },
+    },
+    x = {
+      name = "Code Lens",
+      l = { "<cmd>GoCodeLenAct<cr>", "Toggle Lens" },
+      a = { "<cmd>GoCodeAction<cr>", "Code Action" },
+    },
+  },
+}, { prefix = "<leader>", mode = "n", default_options })
+
+wk.register({
+  l = {
+    name = "LSP",
+    D = { "<cmd>lua vim.lsp.buf.declaration()<cr>", "Go To Declaration" },
+    I = {
+      "<cmd>lua vim.lsp.buf.implementation()<cr>",
+      "Show implementations",
+    },
+    R = { "<cmd>lua vim.lsp.buf.rename()<cr>", "Rename" },
+    a = { "<cmd>lua vim.lsp.buf.code_action()<cr>", "Code Action" },
+    d = { "<cmd>lua vim.lsp.buf.definition()<cr>", "Go To Definition" },
+    e = { "<cmd>Telescope diagnostics bufnr=0<cr>", "Document Diagnostics" },
+    -- f = { "<cmd>lua vim.lsp.buf.formatting()<cr>", "Format" },
+    i = { "<cmd>LspInfo<cr>", "Connected Language Servers" },
+    k = { "<cmd>lua vim.lsp.buf.hover()<cr>", "Hover Commands" },
+    l = { "<cmd>lua vim.diagnostic.open_float()<CR>", "Line Diagnostics" },
+    n = { "<cmd>lua vim.diagnostic.goto_next()<cr>", "Next Diagnostic" },
+    p = { "<cmd>lua vim.diagnostic.goto_prev()<cr>", "Prev Diagnostic" },
+    q = { "<cmd>lua vim.diagnostic.setloclist()<cr>", "Quickfix Diagnostics" },
+    r = { "<cmd>lua vim.lsp.buf.references()<cr>", "References" },
+    s = { "<cmd>Telescope lsp_document_symbols<cr>", "Document Symbols" },
+    t = { "<cmd>lua vim.lsp.buf.type_definition()<cr>", "Type Definition" },
+    w = {
+      name = "workspaces",
+      a = {
+        "<cmd>lua vim.lsp.buf.add_workspace_folder()<cr>",
+        "Add Workspace Folder",
+      },
+      d = { "<cmd>Telescope diagnostics<cr>", "Workspace Diagnostics" },
+      l = {
+        "<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<cr>",
+        "List Workspace Folders",
+      },
+      r = {
+        "<cmd>lua vim.lsp.buf.remove_workspace_folder()<cr>",
+        "Remove Workspace Folder",
+      },
+      s = {
+        "<cmd>Telescope lsp_dynamic_workspace_symbols<cr>",
+        "Workspace Symbols",
+      },
+    },
+  },
+}, { prefix = "<leader>", mode = "n", default_options })
+wk.register({
+  m = {
+    F = { "<cmd>lua require('everith.lsp.utils').toggle_autoformat()<cr>", "Toggle format on save" },
+  },
+}, { prefix = "<leader>", mode = "n", default_options })

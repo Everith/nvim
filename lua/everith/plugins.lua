@@ -259,12 +259,14 @@ return packer.startup(function(use)
   })
   use("ghifarit53/tokyonight-vim")
 
-  use({
-    "anuvyklack/hydra.nvim",
-    requires = "anuvyklack/keymap-layer.nvim", -- needed only for pink hydras
-    commit = "ea91aa820a6cecc57bde764bb23612fff26a15de",
-    config = get_config("hydra"),
-  })
+  --   dont klike it
+  --
+  --   use({
+  --     "anuvyklack/hydra.nvim",
+  --     requires = "anuvyklack/keymap-layer.nvim", -- needed only for pink hydras
+  --     commit = "ea91aa820a6cecc57bde764bb23612fff26a15de",
+  --     config = get_config("hydra"),
+  --   })
   use({ "folke/which-key.nvim", config = get_config("which-key") })
 
   --TODO: need place

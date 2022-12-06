@@ -11,16 +11,16 @@ M.notify = function(message, level, title)
   vim.api.nvim_notify(message, level, notify_options)
 end
 
--- check if a variable is not empty nor nil
-M.isNotEmpty = function(s)
-  return s ~= nil and s ~= ""
-end
+-- -- check if a variable is not empty nor nil
+-- M.isNotEmpty = function(s)
+--   return s ~= nil and s ~= ""
+-- end
 
 --- Check if path exists
-M.path_exists = function(path)
-  local ok = vim.loop.fs_stat(path)
-  return ok
-end
+-- M.path_exists = function(path)
+--   local ok = vim.loop.fs_stat(path)
+--   return ok
+-- end
 
 -- Return telescope files command
 M.telescope_find_files = function()
@@ -32,35 +32,35 @@ M.telescope_find_files = function()
   end
 end
 
--- toggle quickfixlist
-M.toggle_qf = function()
-  local windows = fn.getwininfo()
-  local qf_exists = false
-  for _, win in pairs(windows) do
-    if win["quickfix"] == 1 then
-      qf_exists = true
-    end
-  end
-  if qf_exists == true then
-    cmd("cclose")
-    return
-  end
-  if M.isNotEmpty(fn.getqflist()) then
-    cmd("copen")
-  end
-end
+-- -- toggle quickfixlist
+-- M.toggle_qf = function()
+--   local windows = fn.getwininfo()
+--   local qf_exists = false
+--   for _, win in pairs(windows) do
+--     if win["quickfix"] == 1 then
+--       qf_exists = true
+--     end
+--   end
+--   if qf_exists == true then
+--     cmd("cclose")
+--     return
+--   end
+--   if M.isNotEmpty(fn.getqflist()) then
+--     cmd("copen")
+--   end
+-- end
 
--- toggle colorcolumn
-M.toggle_colorcolumn = function()
-  local value = vim.api.nvim_get_option_value("colorcolumn", {})
-  if value == "" then
-    M.notify("Enable colocolumn", "info", "functions.lua")
-    vim.api.nvim_set_option_value("colorcolumn", "79", {})
-  else
-    M.notify("Disable colocolumn", "info", "functions.lua")
-    vim.api.nvim_set_option_value("colorcolumn", "", {})
-  end
-end
+-- -- toggle colorcolumn
+-- M.toggle_colorcolumn = function()
+--   local value = vim.api.nvim_get_option_value("colorcolumn", {})
+--   if value == "" then
+--     M.notify("Enable colocolumn", "info", "functions.lua")
+--     vim.api.nvim_set_option_value("colorcolumn", "79", {})
+--   else
+--     M.notify("Disable colocolumn", "info", "functions.lua")
+--     vim.api.nvim_set_option_value("colorcolumn", "", {})
+--   end
+-- end
 
 -- move over a closing element in insert mode
 M.escapePair = function()
@@ -84,25 +84,25 @@ M.escapePair = function()
   end
 end
 
--- @author kikito
--- @see https://codereview.stackexchange.com/questions/268130/get-list-of-buffers-from-current-neovim-instance
--- currently not used
-function M.get_listed_buffers()
-  local buffers = {}
-  local len = 0
-  for buffer = 1, vim.fn.bufnr("$") do
-    if vim.fn.buflisted(buffer) == 1 then
-      len = len + 1
-      buffers[len] = buffer
-    end
-  end
-
-  return buffers
-end
-
-function M.map(mode, l, r, opts)
-  opts = opts or {}
-  vim.keymap.set(mode, l, r, opts)
-end
+-- -- @author kikito
+-- -- @see https://codereview.stackexchange.com/questions/268130/get-list-of-buffers-from-current-neovim-instance
+-- -- currently not used
+-- function M.get_listed_buffers()
+--   local buffers = {}
+--   local len = 0
+--   for buffer = 1, vim.fn.bufnr("$") do
+--     if vim.fn.buflisted(buffer) == 1 then
+--       len = len + 1
+--       buffers[len] = buffer
+--     end
+--   end
+--
+--   return buffers
+-- end
+--
+-- function M.map(mode, l, r, opts)
+--   opts = opts or {}
+--   vim.keymap.set(mode, l, r, opts)
+-- end
 
 return M

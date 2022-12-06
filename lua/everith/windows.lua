@@ -1,4 +1,9 @@
-require("windows").setup({
+local status_ok, config = pcall(require, "windows")
+if not status_ok then
+  return
+end
+
+config.setup({
   autowidth = { --		     |windows.autowidth|
     enable = false,
     winwidth = 5, --		      |windows.winwidth|

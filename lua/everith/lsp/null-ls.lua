@@ -1,4 +1,8 @@
-local nls = require("null-ls")
+local status_ok, nls = pcall(require, "null-ls")
+if not status_ok then
+  return
+end
+
 local augroup = vim.api.nvim_create_augroup("LspFormatting", {})
 
 nls.setup({
@@ -20,13 +24,6 @@ nls.setup({
     nls.builtins.code_actions.gitsigns,
   },
   on_attach = function(client, bufnr)
-    local wk = require("which-key")
-    local default_options = { silent = true }
-    wk.register({
-      m = {
-        F = { "<cmd>lua require('everith.lsp.utils').toggle_autoformat()<cr>", "Toggle format on save" },
-      },
-    }, { prefix = "<leader>", mode = "n", default_options })
     if client.supports_method("textDocument/formatting") then
       vim.api.nvim_clear_autocmds({ group = augroup, buffer = bufnr })
       vim.api.nvim_create_autocmd("BufWritePre", {

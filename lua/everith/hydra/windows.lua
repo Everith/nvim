@@ -1,5 +1,12 @@
-local Hydra = require("hydra")
-local picker = require("window-picker")
+local status_ok, Hydra = pcall(require, "hydra")
+if not status_ok then
+  return
+end
+
+local status_ok, picker = pcall(require, "window-picker")
+if not status_ok then
+  return
+end
 
 local function cmd(command)
   return table.concat({ "<Cmd>", command, "<CR>" })
