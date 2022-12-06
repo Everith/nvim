@@ -1,7 +1,5 @@
 local M = {}
 
-require("dap-go").setup()
-
 local function configure()
   local dap_breakpoint = {
     error = {
@@ -49,7 +47,6 @@ local function configure_exts()
 end
 
 local function configure_debuggers()
-  require("everith.dap.python").setup()
   require("everith.dap.go").setup()
 end
 

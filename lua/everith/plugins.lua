@@ -87,12 +87,12 @@ return packer.startup(function(use)
     "windwp/nvim-autopairs",
     config = get_config("nvim-autopairs"),
   })
-  --WARN: not working ?
-  use({
-    "aarondiel/spread.nvim",
-    after = "nvim-treesitter",
-    config = get_config("spread"),
-  })
+  --   --WARN: not working ?
+  --   use({
+  --     "aarondiel/spread.nvim",
+  --     after = "nvim-treesitter",
+  --     config = get_config("spread"),
+  --   })
 
   --NOTE: nvim-treesitter
   use({
@@ -304,6 +304,7 @@ return packer.startup(function(use)
     ft = "qf",
     config = get_config("nvim-bqf"),
   })
+
   use({
     "lukas-reineke/indent-blankline.nvim",
     event = "BufReadPre",
