@@ -31,7 +31,8 @@ ls.config.set_config({ history = true, updateevents = "TextChanged,TextChangedI"
 -- load friendly-snippets
 vsc.lazy_load()
 -- load lua snippets
-lua.load({ paths = os.getenv("HOME") .. "/.config/nvim/snippets/" })
+-- TODO: need to determine host OS for corrent path
+-- lua.load({ paths = os.getenv("HOME") .. "/.config/nvim/snippets/" })
 
 -- expansion key
 -- this will expand the current item or jump to the next item within the snippet.

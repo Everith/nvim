@@ -181,6 +181,14 @@ return packer.startup(function(use)
   use({ "nvim-telescope/telescope-ui-select.nvim" })
   use({ "ptethng/telescope-makefile" })
 
+  --NOTE: GO
+  use({
+    "ray-x/go.nvim",
+    requires = "ray-x/guihua.lua",
+    config = get_config("go"),
+    ft = { "go" },
+  })
+
   --NOTE: DEBUGING tools
   use({
     "mfussenegger/nvim-dap",
@@ -190,17 +198,10 @@ return packer.startup(function(use)
       "rcarriga/nvim-dap-ui",
       "theHamsta/nvim-dap-virtual-text",
     },
+    config = get_config("dap"),
   })
 
-  --NOTE: GO
-  use({
-    "ray-x/go.nvim",
-    requires = "ray-x/guihua.lua",
-    config = get_config("go"),
-    ft = { "go" },
-  })
-
-  --NPTE: GIT
+  --NOTE: GIT
   use({
     "TimUntersberger/neogit",
     requires = {

@@ -28,7 +28,7 @@ local function configure()
 end
 
 local function configure_exts()
-  -- require("dapui").setup()
+  require("dapui").setup()
   require("nvim-dap-virtual-text").setup({
     commented = true,
   })
