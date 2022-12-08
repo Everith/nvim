@@ -1,9 +1,12 @@
 -- NOTE: all LSP and formatting related options are disabeld.
 -- NOTE: LSP is handled by lsp.lua and formatting is handled by null-ls.lua
 -- NOTE: via `lsp_on_attach` the custom callback used by all other LSPs is called
+local status_ok, go = pcall(require, "go")
+if not status_ok then
+  return
+end
 
-
-require("go").setup({
+go.setup({
   go = "go", -- go command, can be go[default] or go1.18beta1
   goimport = "gopls", -- goimport command, can be gopls[default] or goimport
   fillstruct = "gopls", -- can be nil (use fillstruct, slower) and gopls
@@ -29,7 +32,7 @@ require("go").setup({
   --      when lsp_cfg is true
   -- if lsp_on_attach is a function: use this function as on_attach function for gopls
   lsp_codelens = true, -- set to false to disable codelens, true by default
-  lsp_keymaps = false, -- set to false to disable gopls/lsp keymap
+  lsp_keymaps = true, -- set to false to disable gopls/lsp keymap
   lsp_diag_hdlr = true, -- hook lsp diag handler
   lsp_diag_virtual_text = { space = 0, prefix = "<>" }, -- virtual text setup
   lsp_diag_signs = true,
@@ -79,5 +82,4 @@ require("go").setup({
   test_runner = "go", -- richgo, go test, richgo, dlv, ginkgo
   run_in_floaterm = false, -- set to true to run in float window.
   -- float term recommended if you use richgo/ginkgo with terminal color
-  luasnip = true,
-})
+  luasnip = false,

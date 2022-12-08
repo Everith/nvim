@@ -13,7 +13,7 @@ function BuildCodes()
     vim.cmd("w")
     vim.cmd("cd %:h")
     vim.cmd('echo "Exit with C-c"')
-    vim.cmd("!go run main.go")
+    vim.cmd("!go run .")
   end
 end
 
@@ -35,5 +35,22 @@ function Terminal()
   else
     vim.cmd("sp")
     vim.cmd("terminal")
+  end
+end
+
+function GetOS()
+  local BinaryFormat = package.cpath:match("%p[\\|/]?%p(%a+)")
+  if BinaryFormat == "dll" then
+      function os.name()
+          return "Windows"
+      end
+  elseif BinaryFormat == "so" then
+      function os.name()
+          return "Linux"
+      end
+  elseif BinaryFormat == "dylib" then
+      function os.name()
+          return "MacOS"
+      end
   end
 end

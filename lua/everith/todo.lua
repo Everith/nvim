@@ -1,4 +1,9 @@
-require("todo-comments").setup({
+local status_ok, todo = pcall(require, "todo-comments")
+if not status_ok then
+  return
+end
+
+todo.setup({
   signs = true, -- show icons in the signs column
   sign_priority = 8, -- sign priority
   -- keywords recognized as todo comments
@@ -32,7 +37,7 @@ require("todo-comments").setup({
   -- list of named colors where we try to extract the guifg from the
   -- list of highlight groups or use the hex color if hl not found as a fallback
   colors = {
-    error = { "LspDiagnosticsDefaultError", "ErrorMsg", "#DC2626" },
+    error = { "LspDiagnosticsDefaultError", "ErrorMsg", "#FFA500" },
     warning = { "LspDiagnosticsDefaultWarning", "WarningMsg", "#FBBF24" },
     info = { "LspDiagnosticsDefaultInformation", "#2563EB" },
     hint = { "LspDiagnosticsDefaultHint", "#10B981" },

@@ -42,5 +42,4 @@ require("gitsigns").setup({
   yadm = {
     enable = false,
   },
-  on_attach = require("everith.git.mappings").setup(),
 })

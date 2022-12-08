@@ -5,7 +5,7 @@ end
 
 local actions = require("telescope.actions")
 local action_layout = require("telescope.actions.layout")
-local fb_actions = require("telescope").extensions.file_browser.actions
+local fb_actions = telescope.extensions.file_browser.actions
 
 telescope.setup({
   defaults = {
