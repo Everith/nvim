@@ -11,6 +11,7 @@ require("neo-tree").setup({
   add_blank_line_at_top = false, -- Add a blank line at the top of the tree.
   close_if_last_window = true, -- Close Neo-tree if it is the last window left in the tab
   -- popup_border_style is for input and confirmation dialogs.
+  -- popup_border_style = "rounded",
   -- Configurtaion of floating window is done in the individual source sections.
   -- "NC" is a special style that works well with NormalNC set
   close_floats_on_escape_key = true,
@@ -239,7 +240,7 @@ require("neo-tree").setup({
         },
       },
       ["A"] = "add_directory", -- also accepts the config.show_path option.
-      ["dd"] = "delete",
+      ["d"] = "delete",
       ["r"] = "rename",
       ["y"] = "copy_to_clipboard",
       ["x"] = "cut_to_clipboard",
@@ -254,12 +255,6 @@ require("neo-tree").setup({
   },
   filesystem = {
     commands = {
-      -- Override delete to use trash instead of rm
-      delete = function(state)
-        local path = state.tree:get_node().path
-        vim.fn.system({ "trash", vim.fn.fnameescape(path) })
-        require("neo-tree.sources.manager").refresh(state.name)
-      end,
       system_open = function(state)
         local node = state.tree:get_node()
         local path = node:get_id()

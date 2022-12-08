@@ -7,6 +7,7 @@ require("everith.scripts")
 require("everith.keymaps")
 require("everith.autocmd")
 
+
 --CHANGE DIR
 --:cd %:h
 --Starting directory

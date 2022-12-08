@@ -38,7 +38,7 @@ packer.init({
   },
 })
 
-local function get_config(name)
+local function getConfig(name)
   return string.format('require("everith/%s")', name)
 end
 
@@ -81,259 +81,252 @@ return packer.startup(function(use)
   -- --   module_pattern = string/list -- Specifies Lua pattern of Lua module names for require. When requiring a string which matches one of these patterns, the plugin will be loaded.
   -- -- }
 
-  -- My plugins here
-  use("tpope/vim-surround") -- Add surround functon to "S" in visual mode and more
-  use({
-    "windwp/nvim-autopairs",
-    config = get_config("nvim-autopairs"),
-  })
-  --WARN: not working ?
-  use({
-    "aarondiel/spread.nvim",
-    after = "nvim-treesitter",
-    config = get_config("spread"),
-  })
+--   -- My plugins here
+--  ################# IDE #################
+--   --NOTE: LSP
+   use({
+     "williamboman/mason.nvim",
+--     module = "mason-tool-installer",
+     requires = {
+       "williamboman/mason-lspconfig.nvim",
+       --       universal installer not just LSP languages i think
+--       "WhoIsSethDaniel/mason-tool-installer.nvim",
+     },
+     config = getConfig("lsp.mason"),
+   })
+   use({
+     "neovim/nvim-lspconfig",
+     config = getConfig("lsp.lsp"),
+   })
+   --
+   use({ "onsails/lspkind-nvim" })
+   use({
+     "jose-elias-alvarez/null-ls.nvim",
+     requires = { { "nvim-lua/plenary.nvim" } },
+     config = getConfig("lsp.null-ls"),
+   })
+   use({ "SmiteshP/nvim-navic" }) -- TODO: whai is this ? ???
+--
+   --NOTE: DEBUGING TTOLS
+   use({
+     "mfussenegger/nvim-dap",
+--      config = getConfig("lsp/dap"),
+     requires = {
+       "mfussenegger/nvim-dap-python",
+       "leoluz/nvim-dap-go",
+       "rcarriga/nvim-dap-ui",
+       "theHamsta/nvim-dap-virtual-text",
+     },
+   })
 
-  --NOTE: nvim-treesitter
-  use({
-    "nvim-treesitter/nvim-treesitter",
-    config = get_config("treesitter"),
-    run = ":TSUpdate",
-  })
-  use({
-    "nvim-treesitter/nvim-treesitter-textobjects",
-    after = "nvim-treesitter",
-  })
-  use({
-    "RRethy/nvim-treesitter-endwise",
-    after = "nvim-treesitter",
-  })
-  use({
-    "p00f/nvim-ts-rainbow",
-    after = "nvim-treesitter",
-  })
+   --NOTE: GO
+   use({
+     "ray-x/go.nvim",
+     requires = "ray-x/guihua.lua",
+     config = getConfig("go"),
+     ft = { "go" },
+   })
+--  ################# IDE #################
+--
+   use("tpope/vim-surround") -- Add surround functon to "S" in visual mode and more
+   use({
+     "windwp/nvim-autopairs",
+     config = getConfig("nvim-autopairs"),
+   })
 
-  --NOTE: Auto complete
-  use({
-    "hrsh7th/nvim-cmp",
-    requires = {
-      "hrsh7th/cmp-nvim-lsp",
-      "hrsh7th/cmp-buffer",
-      "hrsh7th/cmp-path",
-      "hrsh7th/cmp-cmdline",
-      "hrsh7th/cmp-calc",
-      "lukas-reineke/cmp-rg",
-      "hrsh7th/cmp-nvim-lsp-signature-help",
-    },
-    config = get_config("cmp"),
-  })
-  use({ "rafamadriz/friendly-snippets" })
-  use({
-    "L3MON4D3/LuaSnip",
-    requires = "saadparwaiz1/cmp_luasnip",
-    config = get_config("luasnip"),
-  })
+   --NOTE: nvim-treesitter
+   use({
+     "nvim-treesitter/nvim-treesitter",
+     config = getConfig("treesitter"),
+     run = ":TSUpdate",
+   })
+   use({
+     "nvim-treesitter/nvim-treesitter-textobjects",
+     after = "nvim-treesitter",
+   })
+   use({
+     "RRethy/nvim-treesitter-endwise",
+     after = "nvim-treesitter",
+   })
+   use({
+     "p00f/nvim-ts-rainbow",
+     after = "nvim-treesitter",
+   })
 
-  --NOTE: LSP
-  use({
-    "neovim/nvim-lspconfig",
-    config = get_config("lsp.lsp"),
-  })
-  use({ "onsails/lspkind-nvim" })
-  use({
-    "jose-elias-alvarez/null-ls.nvim",
-    requires = { { "nvim-lua/plenary.nvim" } },
-    config = get_config("lsp.null-ls"),
-  })
-  use({ "SmiteshP/nvim-navic" })
-  use({
-    "williamboman/mason.nvim",
-    cmd = "Mason*",
-    module = "mason-tool-installer",
-    requires = {
-      "williamboman/mason-lspconfig.nvim",
-      "WhoIsSethDaniel/mason-tool-installer.nvim",
-    },
-    config = get_config("lsp.mason"),
-  })
-  use({
-    "folke/neodev.nvim",
-    config = function()
-      require("neodev").setup()
-    end,
-    before = "nvim-lspconfig",
-  })
+   --NOTE: Auto complete
+   use({
+     "hrsh7th/nvim-cmp",
+     requires = {
+       "hrsh7th/cmp-nvim-lsp",
+       "hrsh7th/cmp-buffer",
+       "hrsh7th/cmp-path",
+       "hrsh7th/cmp-cmdline",
+       "hrsh7th/cmp-calc",
+       "lukas-reineke/cmp-rg",
+       "hrsh7th/cmp-nvim-lsp-signature-help",
+     },
+     config = getConfig("cmp"),
+   })
+   use({ "rafamadriz/friendly-snippets" })
+   use({
+     "L3MON4D3/LuaSnip",
+     requires = "saadparwaiz1/cmp_luasnip",
+     config = getConfig("luasnip"),
+   })
 
-  --NOTE: FILE searching with telescope
-  use({
-    "nvim-telescope/telescope.nvim",
-    requires = { "nvim-lua/popup.nvim", "nvim-lua/plenary.nvim" },
-    cmd = "Telescope",
-    module = "telescope",
-    config = get_config("telescope"),
-  })
-  -- Extensions:
-  use({ "jvgrootveld/telescope-zoxide" })
-  use({ "crispgm/telescope-heading.nvim" })
-  use({ "nvim-telescope/telescope-symbols.nvim" })
-  use({ "nvim-telescope/telescope-file-browser.nvim" })
-  use({ "nvim-telescope/telescope-packer.nvim" })
-  use({ "nvim-telescope/telescope-ui-select.nvim" })
-  use({ "ptethng/telescope-makefile" })
-
-  --NOTE: DEBUGING tools
-  use({
-    "mfussenegger/nvim-dap",
-    requires = {
-      "mfussenegger/nvim-dap-python",
-      "leoluz/nvim-dap-go",
-      "rcarriga/nvim-dap-ui",
-      "theHamsta/nvim-dap-virtual-text",
-    },
-  })
-
-  --NOTE: GO
-  use({
-    "ray-x/go.nvim",
-    requires = "ray-x/guihua.lua",
-    config = get_config("go"),
-    ft = { "go" },
-  })
-
-  --NPTE: GIT
-  use({
-    "TimUntersberger/neogit",
-    requires = {
-      "nvim-lua/plenary.nvim",
-      {
-        "sindrets/diffview.nvim",
-        cmd = {
-          "DiffviewOpen",
-          "DiffviewClose",
-          "DiffviewToggleFiles",
-          "DiffviewFocusFiles",
-        },
-        config = get_config("git.diffview"),
-      },
-    },
-    module = "neogit",
-    config = get_config("git.neogit"),
-  })
-  use({
-    "lewis6991/gitsigns.nvim",
-    requires = { "nvim-lua/plenary.nvim" },
-    config = get_config("git.gitsigns"),
-  })
-  use({ "tpope/vim-fugitive" }) -- yeah this is not lua but one of the best Vim plugins ever
-
-  --NOTE: RICE
-  use({
-    "folke/todo-comments.nvim",
-    requires = "nvim-lua/plenary.nvim",
-    config = get_config("todo"),
-  })
-  use({
-    "LudoPinelli/comment-box.nvim",
-    cmd = "CB*",
-    config = get_config("comment-box"),
-  })
-  use({
-    "https://gitlab.com/yorickpeterse/nvim-pqf.git",
-    config = function()
-      require("pqf").setup()
-    end,
-  })
-  use({ "vimpostor/vim-tpipeline" }) -- tmux status line union with nvim statusline
-  use({
-    "folke/noice.nvim",
-    event = "VimEnter",
-    config = get_config("noice"),
-    requires = {
-      "MunifTanjim/nui.nvim",
-      {
-        "rcarriga/nvim-notify",
-        config = get_config("notify"),
-      },
-    },
-  })
-  use("ghifarit53/tokyonight-vim")
-
-  use({
-    "anuvyklack/hydra.nvim",
-    requires = "anuvyklack/keymap-layer.nvim", -- needed only for pink hydras
-    commit = "ea91aa820a6cecc57bde764bb23612fff26a15de",
-    config = get_config("hydra"),
-  })
-  use({ "folke/which-key.nvim", config = get_config("which-key") })
-
-  --TODO: need place
-  use({
-    "anuvyklack/windows.nvim",
-    event = "VimEnter",
-    requires = {
-      "anuvyklack/middleclass",
-      "anuvyklack/animation.nvim",
-    },
-    config = get_config("windows"),
-  })
-  use({ "tweekmonster/startuptime.vim" })
-  use({
-    "nvim-neo-tree/neo-tree.nvim",
-    branch = "v2.x",
-    -- cmd = "NeoTree*",
-    requires = {
-      {
-        "s1n7ax/nvim-window-picker", -- only needed if you want to use the commands with "_with_window_picker" suffix
-        config = get_config("window-picker"),
-      },
-      "nvim-lua/plenary.nvim",
-      "kyazdani42/nvim-web-devicons",
-      "MunifTanjim/nui.nvim",
-    },
-    config = get_config("neotree"),
-  })
-  use({
-    "kevinhwang91/nvim-bqf",
-    requires = {
-      "junegunn/fzf",
-      module = "nvim-bqf",
-    },
-    ft = "qf",
-    config = get_config("nvim-bqf"),
-  })
-  use({
-    "lukas-reineke/indent-blankline.nvim",
-    event = "BufReadPre",
-    config = get_config("indent-blankline"),
-  })
-
-  -- WARN:  needs trying
-  --   use({ "rhysd/vim-grammarous", ft = { "markdown", "latex" }, config = get_config("grammarous") })
-  --   use({ "echasnovski/mini.nvim", branch = "main", config = get_config("mini") })
-  --   use({ "axieax/urlview.nvim", cmd = "Urlview", config = get_config("urlview") })
-  --   use({ "famiu/bufdelete.nvim" })
-  --
-  --   use({ "mfussenegger/nvim-ts-hint-textobject" })
-  --   use({
-  --     "windwp/nvim-ts-autotag",
-  --     config = function()
-  --       require("nvim-ts-autotag").setup()
-  --     end,
-  --   })
-  --   use({
-  --     "ironhouzi/starlite-nvim",
-  --     config = get_config("starlite-nvim"),
-  --   })
-  --
-  --   use({ "numToStr/Navigator.nvim", config = get_config("navigator") })
-  --
-  -- --   use({
-  -- --     "kevinhwang91/nvim-ufo",
-  -- --     requires = "kevinhwang91/promise-async",
-  -- --     config = function()
-  -- --       require("ufo").setup()
-  -- --     end,
-  -- --   })
+--   use({
+--     "folke/neodev.nvim",
+--     config = function()
+--       require("neodev").setup()
+--     end,
+--     before = "nvim-lspconfig",
+--   })
+--
+   --NOTE: FILE searching with telescope
+   use({
+     "nvim-telescope/telescope.nvim",
+     requires = { "nvim-lua/popup.nvim", "nvim-lua/plenary.nvim" },
+     cmd = "Telescope",
+     module = "telescope",
+     config = getConfig("telescope"),
+   })
+   -- Extensions:
+   use({ "jvgrootveld/telescope-zoxide" })
+   use({ "crispgm/telescope-heading.nvim" })
+   use({ "nvim-telescope/telescope-symbols.nvim" })
+   use({ "nvim-telescope/telescope-file-browser.nvim" })
+   use({ "nvim-telescope/telescope-packer.nvim" })
+   use({ "nvim-telescope/telescope-ui-select.nvim" })
+   use({ "ptethng/telescope-makefile" })
+--
+--   --NPTE: GIT
+--   use({
+--     "TimUntersberger/neogit",
+--     requires = {
+--       "nvim-lua/plenary.nvim",
+--       {
+--         "sindrets/diffview.nvim",
+--         cmd = {
+--           "DiffviewOpen",
+--           "DiffviewClose",
+--           "DiffviewToggleFiles",
+--           "DiffviewFocusFiles",
+--         },
+--         config = get_config("git.diffview"),
+--       },
+--     },
+--     module = "neogit",
+--     config = get_config("git.neogit"),
+--   })
+--   use({
+--     "lewis6991/gitsigns.nvim",
+--     requires = { "nvim-lua/plenary.nvim" },
+--     config = get_config("git.gitsigns"),
+--   })
+--   use({ "tpope/vim-fugitive" }) -- yeah this is not lua but one of the best Vim plugins ever
+--
+--   --NOTE: RICE
+   use({
+     "folke/todo-comments.nvim",
+     requires = "nvim-lua/plenary.nvim",
+     config = getConfig("todo"),
+   })
+--   use({
+--     "LudoPinelli/comment-box.nvim",
+--     cmd = "CB*",
+--     config = get_config("comment-box"),
+--   })
+--   use({
+--     "https://gitlab.com/yorickpeterse/nvim-pqf.git",
+--     config = function()
+--       require("pqf").setup()
+--     end,
+--   })
+--   use({ "vimpostor/vim-tpipeline" }) -- tmux status line union with nvim statusline
+   use({
+     "folke/noice.nvim",
+     event = "VimEnter",
+     config = getConfig("noice"),
+     requires = {
+       "MunifTanjim/nui.nvim",
+       {
+         "rcarriga/nvim-notify",
+         config = getConfig("notify"),
+       },
+     },
+   })
+   use("ghifarit53/tokyonight-vim")
+--
+   use({ "folke/which-key.nvim", config = getConfig("which-key") })
+--
+--   --TODO: need place
+   use({
+     "anuvyklack/windows.nvim",
+     event = "VimEnter",
+     requires = {
+       "anuvyklack/middleclass",
+       "anuvyklack/animation.nvim",
+     },
+     config = getConfig("windows"),
+   })
+   use({ "tweekmonster/startuptime.vim" })
+   use({
+     "nvim-neo-tree/neo-tree.nvim",
+     branch = "v2.x",
+     -- cmd = "NeoTree*",
+     requires = {
+       {
+         "s1n7ax/nvim-window-picker", -- only needed if you want to use the commands with "_with_window_picker" suffix
+         config = getConfig("window-picker"),
+       },
+       "nvim-lua/plenary.nvim",
+       "kyazdani42/nvim-web-devicons",
+       "MunifTanjim/nui.nvim",
+     },
+     config = getConfig("neotree"),
+   })
+--   use({
+--     "kevinhwang91/nvim-bqf",
+--     requires = {
+--       "junegunn/fzf",
+--       module = "nvim-bqf",
+--     },
+--     ft = "qf",
+--     config = get_config("nvim-bqf"),
+--   })
+--   use({
+--     "lukas-reineke/indent-blankline.nvim",
+--     event = "BufReadPre",
+--     config = get_config("indent-blankline"),
+--   })
+--
+--   -- WARN:  needs trying
+--   --   use({ "rhysd/vim-grammarous", ft = { "markdown", "latex" }, config = get_config("grammarous") })
+--   --   use({ "echasnovski/mini.nvim", branch = "main", config = get_config("mini") })
+--   --   use({ "axieax/urlview.nvim", cmd = "Urlview", config = get_config("urlview") })
+--   --   use({ "famiu/bufdelete.nvim" })
+--   --
+--   --   use({ "mfussenegger/nvim-ts-hint-textobject" })
+--   --   use({
+--   --     "windwp/nvim-ts-autotag",
+--   --     config = function()
+--   --       require("nvim-ts-autotag").setup()
+--   --     end,
+--   --   })
+--   --   use({
+--   --     "ironhouzi/starlite-nvim",
+--   --     config = get_config("starlite-nvim"),
+--   --   })
+--   --
+--   --   use({ "numToStr/Navigator.nvim", config = get_config("navigator") })
+--   --
+--   -- --   use({
+--   -- --     "kevinhwang91/nvim-ufo",
+--   -- --     requires = "kevinhwang91/promise-async",
+--   -- --     config = function()
+--   -- --       require("ufo").setup()
+--   -- --     end,
+--   -- --   })
 
   -- Automatically set up your configuration after cloning packer.nvim
   -- Put this at the end after all plugins

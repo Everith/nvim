@@ -1,5 +1,0 @@
-require("everith.hydra.git")
-require("everith.hydra.options")
-require("everith.hydra.spelling")
-require("everith.hydra.telescope")
-require("everith.hydra.windows")

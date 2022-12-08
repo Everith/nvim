@@ -22,7 +22,7 @@ local term_opts = { silent = true }
 --
 
 --Remap space as leader key
-keymap("", "<Space>", "<Nop>", opts)
+-- keymap("", "<Space>", "<Nop>", opts)
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
 
@@ -33,13 +33,12 @@ keymap("n", "<C-l>", "<cmd>noh<CR>", opts) -- Clear highlights
 keymap("n", "<C-p>", "<cmd>Neotree toggle<CR>", opts) -- Clear highlights
 
 --BUILD.BAT file run and project stuff
-
 keymap("", "<F5>", ":lua BuildCodes()<CR>", opts)
-keymap("", "<F6>", ":w<CR>:cd %:h<CR>:!build\\AoC.exe<CR>", opts)
-keymap("", "<F1>", ":lua Terminal()<CR>", opts)
+-- keymap("", "<F6>", ":w<CR>:cd %:h<CR>:!build\\AoC.exe<CR>", opts)
+-- keymap("", "<F1>", ":lua Terminal()<CR>", opts)
 keymap("", "K", ":lua GetManual()<CR>", opts)
 --NVUI
-keymap("n", "<F11>", ":NvuiToggleFullscreen<CR>", opts)
+-- keymap("n", "<F11>", ":NvuiToggleFullscreen<CR>", opts)
 
 --MOUVEMENTS
 keymap("n", "<A-h>", "<C-w><C-h>", opts) -- Make <C-u> undo-friendly
@@ -62,26 +61,21 @@ keymap("n", "<c-q>", ":bd<cr>", opts) -- Make <C-u> undo-friendly
 keymap("v", "<s-Tab>", "<gv", opts)
 keymap("v", "<Tab>", ">gv", opts)
 -- Move text up and down
-keymap("v", "<A-k>", ":m .-2<CR>==", opts)
-keymap("v", "<A-j>", ":m .+1<CR>==", opts)
+-- keymap("v", "<A-k>", ":m .-2<CR>==", opts)
+-- keymap("v", "<A-j>", ":m .+1<CR>==", opts)
 
 -- Visual Block --
 -- Move text up and down
-keymap("x", "J", ":move '>+1<CR>gv-gv", opts)
-keymap("x", "K", ":move '<-2<CR>gv-gv", opts)
-keymap("x", "<A-j>", ":move '>+1<CR>gv-gv", opts)
-keymap("x", "<A-k>", ":move '<-2<CR>gv-gv", opts)
-keymap("x", "p", '"_c<C-r>"<Esc>', opts) -- replace line or selected text
-keymap("x", "P", 'I<C-r>"<Esc>', opts)
-
--- Terminal --
--- Better terminal navigation
-keymap("t", "<C-h>", "<C-\\><C-N><C-w>h", term_opts)
-keymap("t", "<C-j>", "<C-\\><C-N><C-w>j", term_opts)
-keymap("t", "<Esc>", "<C-\\><C-N><C-w>k", term_opts)
-keymap("t", "<C-l>", "<C-\\><C-N><C-w>l", term_opts)
+-- keymap("x", "p", '"_c<C-r>"<Esc>', opts) -- replace line or selected text
+-- keymap("x", "P", 'I<C-r>"<Esc>', opts)
 
 -- PLUGINS
+-- DAP DEBUGGING:
+keymap("", "<leader>db", ":lua require'dap'.toggle_breakpoint()<CR>", opts)
+keymap("", "<F6>", ":lua require'dap'.continue()<CR>", opts)
+keymap("", "<F9>", ":lua require'dap'.step_over()<CR>", opts)
+keymap("", "<F10>", ":lua require'dap'.step_into()<CR>", opts)
+
 -- GIT fugitive keybindings
 keymap("", "<leader>gs", ":G<CR>", opts)
 keymap("", "<leader>gc", ":Git commit<CR>", opts)
@@ -108,12 +102,7 @@ keymap("n", "<leader>F2", "lua vim.lsp.buf.formatting()", opts)
 --
 -- TELESCOPE ###################################################
 -- keymap("n", "<leader>f", "<cmd>Telescope find_files<cr>", opts)
-keymap(
-  "n",
-  "<leader>tf",
-  "<cmd>lua require'telescope.builtin'.find_files(require('telescope.themes').get_dropdown({ previewer = false }))<cr>",
-  opts
-)
+keymap("n", "<leader>tf", "<cmd>lua require'telescope.builtin'.find_files(require('telescope.themes').get_dropdown({ previewer = false }))<cr>", opts)
 keymap("n", "<leader>tg", "<cmd>Telescope live_grep<cr>", opts)
 
 -- FZF ########################################
@@ -143,3 +132,47 @@ keymap("n", "<leader>tg", "<cmd>Telescope live_grep<cr>", opts)
 --:Maps
 --:Helptags
 --:Filetypes
+--     local wk = require("which-key")
+--     local default_options = { silent = true }
+--     wk.register({
+--       c = {
+--         name = "Coding",
+--         a = { "<cmd>GoCodeAction<cr>", "Code action" },
+--         e = { "<cmd>GoIfErr<cr>", "Add if err" },
+--         h = {
+--           name = "Helper",
+--           a = { "<cmd>GoAddTag<cr>", "Add tags to struct" },
+--           r = { "<cmd>GoRMTag<cr>", "Remove tags to struct" },
+--           c = { "<cmd>GoCoverage<cr>", "Test coverage" },
+--           g = { "<cmd>lua require('go.comment').gen()<cr>", "Generate comment" },
+--           v = { "<cmd>GoVet<cr>", "Go vet" },
+--           t = { "<cmd>GoModTidy<cr>", "Go mod tidy" },
+--           i = { "<cmd>GoModInit<cr>", "Go mod init" },
+--         },
+--         i = { "<cmd>GoToggleInlay<cr>", "Toggle inlay" },
+--         l = { "<cmd>GoLint<cr>", "Run linter" },
+--         o = { "<cmd>GoPkgOutline<cr>", "Outline" },
+--         r = { "<cmd>GoRun<cr>", "Run" },
+--         s = { "<cmd>GoFillStruct<cr>", "Autofill struct" },
+--         t = {
+--           name = "Tests",
+--           r = { "<cmd>GoTest<cr>", "Run tests" },
+--           a = { "<cmd>GoAlt!<cr>", "Open alt file" },
+--           s = { "<cmd>GoAltS!<cr>", "Open alt file in split" },
+--           v = { "<cmd>GoAltV!<cr>", "Open alt file in vertical split" },
+--           u = { "<cmd>GoTestFunc<cr>", "Run test for current func" },
+--           f = { "<cmd>GoTestFile<cr>", "Run test for current file" },
+--         },
+--         x = {
+--           name = "Code Lens",
+--           l = { "<cmd>GoCodeLenAct<cr>", "Toggle Lens" },
+--           a = { "<cmd>GoCodeAction<cr>", "Code Action" },
+--         },
+--       },
+--     }, { prefix = "<leader>", mode = "n", default_options })
+--     wk.register({
+--       c = {
+--         -- name = "Coding",
+--         j = { "<cmd>'<,'>GoJson2Struct<cr>", "Json to struct" },
+--       },
+--     }, { prefix = "<leader>", mode = "v", default_options })
