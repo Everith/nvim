@@ -15,7 +15,7 @@ local opts = {
   },
   workspace = {
     library = {
-      vim.api.nvim_get_runtime_file("", true),
+      -- vim.api.nvim_get_runtime_file("", true),
     },
     -- adjust these two values if your performance is not optimal
     maxPreload = 2000,
