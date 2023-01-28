@@ -243,18 +243,18 @@ return packer.startup(function(use)
 --     end,
 --   })
 --   use({ "vimpostor/vim-tpipeline" }) -- tmux status line union with nvim statusline
-   use({
-     "folke/noice.nvim",
-     event = "VimEnter",
-     config = getConfig("noice"),
-     requires = {
-       "MunifTanjim/nui.nvim",
-       {
-         "rcarriga/nvim-notify",
-         config = getConfig("notify"),
-       },
-     },
-   })
+--   use({
+--     "folke/noice.nvim",
+--     event = "VimEnter",
+--     config = getConfig("noice"),
+--     requires = {
+--       "MunifTanjim/nui.nvim",
+--       {
+--         "rcarriga/nvim-notify",
+--         config = getConfig("notify"),
+--       },
+--     },
+--   })
    use("ghifarit53/tokyonight-vim")
 --
    use({ "folke/which-key.nvim", config = getConfig("which-key") })
