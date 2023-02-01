@@ -84,25 +84,4 @@ M.escapePair = function()
   end
 end
 
--- -- @author kikito
--- -- @see https://codereview.stackexchange.com/questions/268130/get-list-of-buffers-from-current-neovim-instance
--- -- currently not used
--- function M.get_listed_buffers()
---   local buffers = {}
---   local len = 0
---   for buffer = 1, vim.fn.bufnr("$") do
---     if vim.fn.buflisted(buffer) == 1 then
---       len = len + 1
---       buffers[len] = buffer
---     end
---   end
---
---   return buffers
--- end
---
--- function M.map(mode, l, r, opts)
---   opts = opts or {}
---   vim.keymap.set(mode, l, r, opts)
--- end
-
 return M

@@ -71,10 +71,12 @@ keymap("v", "<Tab>", ">gv", opts)
 
 -- PLUGINS
 -- DAP DEBUGGING:
-keymap("", "<leader>db", ":lua require'dap'.toggle_breakpoint()<CR>", opts)
+keymap("", "<leader>b", ":lua require'dap'.toggle_breakpoint()<CR>", opts)
+keymap("", "<leader>B", ":lua require'dap'.set_breakpoint(vim.fn.input('Breakpoint condition: ')<CR>", opts)
 keymap("", "<F6>", ":lua require'dap'.continue()<CR>", opts)
 keymap("", "<F9>", ":lua require'dap'.step_over()<CR>", opts)
 keymap("", "<F10>", ":lua require'dap'.step_into()<CR>", opts)
+keymap("", "<F11>", ":lua require'dap'.step_out()<CR>", opts)
 
 -- GIT fugitive keybindings
 keymap("", "<leader>gs", ":G<CR>", opts)

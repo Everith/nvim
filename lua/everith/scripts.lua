@@ -9,11 +9,11 @@ function BuildCodes()
     vim.cmd("w")
     vim.cmd("cd %:h")
     vim.cmd('echo "lua file in scripts"')
-  elseif fileType == "go" then
-    vim.cmd("w")
-    vim.cmd("cd %:h")
-    vim.cmd('echo "Exit with C-c"')
-    vim.cmd("!go run .")
+--  elseif fileType == "go" then
+--    vim.cmd("w")
+--    vim.cmd("cd %:h")
+--    vim.cmd('echo "Exit with C-c"')
+--    vim.cmd("!go run .")
   end
 end
 

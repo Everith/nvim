@@ -45,7 +45,6 @@ require("diffview").setup({
     DiffviewFileHistory = {},
   },
   hooks = {}, -- See ':h diffview-config-hooks'
-  -- TODO: find som better place ?
   -- INFO: Key binding for GIT
   key_bindings = {
     disable_defaults = false, -- Disable the default key bindings

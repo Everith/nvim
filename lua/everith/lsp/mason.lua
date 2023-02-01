@@ -13,11 +13,8 @@ end
 masonLspconfig.setup({
   ensure_installed = {
 	  "bashls",
-	  "ansiblels",
 	  "clangd",
-	  "cmake",
 	  "cssls",
-	  "dockerls",
 	  "gopls",
 	  "html",
 	  "jsonls",
