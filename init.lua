@@ -1,11 +1,19 @@
 -- require "everith"
 require("everith.plugins")
-require("everith.colorscheme")
 
+require("everith.colorscheme")
 require("everith.options")
+
 require("everith.scripts")
-require("everith.keymaps")
 require("everith.autocmd")
+
+require("everith.keymaps")
+
+vim.cmd("autocmd InsertEnter * lua vim.fn.system([[mpv --no-terminal $MYVIMRC/sound/oh-yeah.wav]])")
+vim.cmd('autocmd InsertLeave * lua vim.fn.system("mpv --no-terminal $MYVIMRC/sound/oh-yeah.wav")')
+vim.cmd(
+	lua vim.fn.system([[mpv --no-terminal C:\\Users/balaz/AppData/Local/nvim/sound/sound/oh-yeah.wav]])
+)
 
 --CHANGE DIR
 --:cd %:h
@@ -29,5 +37,5 @@ require("everith.autocmd")
 
 -- WARN: Required programs for Windows:
 --  choco install ripgrep
---  
+--
 -- WARN: Required programs for Linux:

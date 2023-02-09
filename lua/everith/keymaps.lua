@@ -18,19 +18,18 @@ local term_opts = { silent = true }
 --M = ALT
 --A = ALT
 --leader = " "
---
---
+
+keymap("n", "<z>", "<cmd>vim.fn.system([[mpv --no-terminal $MYVIMRC/sound/oh_yeah.wav]])<CR>", opts) -- toggle neo-tree window
 
 --Remap space as leader key
 -- keymap("", "<Space>", "<Nop>", opts)
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
 
-keymap("", "<leader>sv", ":source $MYVIMRC<CR>", opts)
 keymap("", "<leader>ev", ":e $MYVIMRC<CR>", opts)
 keymap("", "<leader>cd", ":cd %:h<CR>", opts)
-keymap("n", "<C-l>", "<cmd>noh<CR>", opts) -- Clear highlights
-keymap("n", "<C-p>", "<cmd>Neotree toggle<CR>", opts) -- Clear highlights
+keymap("n", "<leader><leader>", "<cmd>noh<CR>", opts) -- Clear highlights
+keymap("n", "<C-p>", "<cmd>Neotree toggle<CR>", opts) -- toggle neo-tree window
 
 --BUILD.BAT file run and project stuff
 keymap("", "<F5>", ":lua BuildCodes()<CR>", opts)
@@ -41,10 +40,15 @@ keymap("", "K", ":lua GetManual()<CR>", opts)
 -- keymap("n", "<F11>", ":NvuiToggleFullscreen<CR>", opts)
 
 --MOUVEMENTS
-keymap("n", "<A-h>", "<C-w><C-h>", opts) -- Make <C-u> undo-friendly
-keymap("n", "<A-j>", "<C-w><C-j>", opts) -- Make <C-u> undo-friendly
-keymap("n", "<A-k>", "<C-w><C-k>", opts) -- Make <C-u> undo-friendly
-keymap("n", "<M-l>", "<C-w><C-l>", opts) -- Make <C-u> undo-friendly
+keymap("n", "<A-h>", "<C-w><C-h>", opts)
+keymap("n", "<A-j>", "<C-w><C-j>", opts)
+keymap("n", "<A-k>", "<C-w><C-k>", opts)
+keymap("n", "<M-l>", "<C-w><C-l>", opts)
+-- TABS
+keymap("n", "<leader>to", ":tabnew<CR>", opts) -- open new tab
+keymap("n", "<leader>tc", ":tabclose<CR>", opts) -- close tab
+keymap("n", "<leader>tp", ":tabp<CR>", opts) -- go to previus tab
+keymap("n", "<leader>tn", ":tabn<CR>", opts) -- go to next tab
 -- Resize with arrows
 keymap("n", "<C-Up>", ":resize +2<CR>", opts)
 keymap("n", "<C-Down>", ":resize -2<CR>", opts)
@@ -52,9 +56,12 @@ keymap("n", "<C-Left>", ":vertical resize -2<CR>", opts)
 keymap("n", "<C-Right>", ":vertical resize +2<CR>", opts)
 
 --BUFFERS
-keymap("n", "<c-k>", ":bp<cr>", opts) -- Make <C-u> undo-friendly
-keymap("n", "<c-j>", ":bn<cr>", opts) -- Make <C-u> undo-friendly
-keymap("n", "<c-q>", ":bd<cr>", opts) -- Make <C-u> undo-friendly
+keymap("n", "<c-k>", ":bp<cr>", opts)
+keymap("n", "<c-j>", ":bn<cr>", opts)
+keymap("n", "x", '"_x', opts)
+-- TODO: dont know wich one i want yet
+-- keymap("n", "<c-q>", ":close<cr>", opts) -- close window
+keymap("n", "<c-q>", ":bd<cr>", opts) -- destroy buffer
 
 -- Visual --
 -- ndent
@@ -84,50 +91,39 @@ keymap("", "<leader>gc", ":Git commit<CR>", opts)
 keymap("", "<leader>gp", ":Git push<CR>", opts)
 keymap("", "<leader>gf", ":Git fetch<CR>", opts)
 
--- LSP ##############################################################
-keymap("n", "<leader>lD", "<cmd>lua vim.lsp.buf.declaration()<CR>", opts)
-keymap("n", "<leader>ld", "<cmd>lua vim.lsp.buf.definition()<CR>", opts)
-keymap("n", "<leader>lk", "<cmd>lua vim.lsp.buf.hover()<CR>", opts)
-keymap("n", "<leader>li", "<cmd>lua vim.lsp.buf.implementation()<CR>", opts)
-keymap("n", "<leader>lh", "<cmd>lua vim.lsp.buf.signature_help()<CR>", opts)
-keymap("n", "<leader>r", "<cmd>lua vim.lsp.buf.rename()<CR>", opts)
-keymap("n", "<leader>lr", "<cmd>lua vim.lsp.buf.references()<CR>", opts)
-keymap("n", "<leader>la", "<cmd>lua vim.lsp.buf.code_action()<CR>", opts)
---  -- vim.api.nvim_buf_set_keymap(bufnr, "n", "<leader>lp", '<cmd>lua vim.diagnostic.goto_prev({ border = "rounded" })<CR>', opts)
---  -- vim.api.nvim_buf_set_keymap(bufnr, "n", "<leader>ln", '<cmd>lua vim.diagnostic.goto_next({ border = "rounded" })<CR>', opts)
-keymap("n", "<leader>le", "<cmd>lua vim.diagnostic.setloclist()<CR>", opts)
-keymap("n", "<leader>F2", "lua vim.lsp.buf.formatting()", opts)
-
 -- LUASNIP #############################################################
 local status_ok, luasnip = pcall(require, "luasnip")
 if not status_ok then
-  return
+	return
 end
 -- expansion key
 -- this will expand the current item or jump to the next item within the snippet.
 vim.keymap.set({ "i", "s" }, "<c-j>", function()
-  if luasnip.expand_or_jumpable() then
-    luasnip.expand_or_jump()
-  end
+	if luasnip.expand_or_jumpable() then
+		luasnip.expand_or_jump()
+	end
 end, { silent = true })
 -- jump backwards key.
 -- this always moves to the previous item within the snippet
 vim.keymap.set({ "i", "s" }, "<c-k>", function()
-  if luasnip.jumpable(-1) then
-    luasnip.jump(-1)
-  end
+	if luasnip.jumpable(-1) then
+		luasnip.jump(-1)
+	end
 end, { silent = true })
 -- selecting within a list of options.
 vim.keymap.set("i", "<c-h>", function()
-  if luasnip.choice_active() then
-    luasnip.change_choice(1)
-  end
+	if luasnip.choice_active() then
+		luasnip.change_choice(1)
+	end
 end)
 
 -- TELESCOPE ###################################################
 -- keymap("n", "<leader>f", "<cmd>Telescope find_files<cr>", opts)
-keymap("n", "<leader>tf", "<cmd>lua require'telescope.builtin'.find_files(require('telescope.themes').get_dropdown({ previewer = false }))<cr>", opts)
-keymap("n", "<leader>tg", "<cmd>Telescope live_grep<cr>", opts)
+keymap("n", "<leader>ff", "<cmd>Telescope find_files<cr>", opts)
+keymap("n", "<leader>fs", "<cmd>Telescope live_grep<cr>", opts)
+keymap("n", "<leader>fc", "<cmd>Telescope grep_string<cr>", opts)
+keymap("n", "<leader>fb", "<cmd>Telescope buffers<cr>", opts)
+keymap("n", "<leader>fh", "<cmd>Telescope help_tags<cr>", opts)
 
 -- FZF ########################################
 -- keymap('n','<leader>p',':Files<CR>')
@@ -238,7 +234,7 @@ keymap("n", "<leader>tg", "<cmd>Telescope live_grep<cr>", opts)
 --     },
 --   },
 -- }, { prefix = "<leader>", mode = "n", default_options })
--- 
+--
 -- wk.register({
 --   l = {
 --     name = "LSP",

@@ -1,46 +1,114 @@
+local ok, lspconfig = pcall(require, "lspconfig")
+if not ok then
+	print("LSPconfig failed to load.")
+	return
+end
+
+local CmpNvimLsp_ok, CmpNvimLsp = pcall(require, "cmp_nvim_lsp")
+if not CmpNvimLsp_ok then
+	print("LSPconfig failed to load.")
+	return
+end
+
+local on_attach = function(client, bufnr)
+	local keymap = vim.keymap.set
+	local opts = { noremap = true, silent = true, buffer = bufnr }
+
+	keymap("n", "<space>q", vim.diagnostic.setloclist, opts)
+	keymap("n", "<leader>gD", "<cmd>lua vim.lsp.buf.declaration()<CR>", opts)
+	keymap("n", "<leader>gd", "<cmd> Lspsaga peek_definition<CR>", opts)
+	keymap("n", "<leader>gi", "<cmd>lua vim.lsp.buf.implementation()<CR>", opts)
+	keymap("n", "<leader>gr", "<cmd>lua vim.lsp.buf.references()<CR>", opts)
+	keymap("n", "K", "<cmd>Lspsaga hover_doc<CR>", opts)
+
+	keymap("n", "<leader>gh", "<cmd>lua vim.lsp.buf.signature_help()<CR>", opts)
+	keymap("n", "<leader>ep", "<cmd>Lspsaga diagnostic_jump_prev<CR>", opts)
+	keymap("n", "<leader>en", "<cmd>Lspsaga diagnostic_jump_next<CR>", opts)
+
+	keymap("n", "<leader>le", "<cmd>lua vim.diagnostic.setloclist()<CR>", opts)
+
+	keymap("n", "<leader>ca", "<cmd>Lspsaga code_action<CR>", opts)
+	keymap("n", "<leader>r", "<cmd>Lspsaga rename<CR>", opts)
+	keymap("n", "<leader>cf", "lua vim.lsp.buf.formatting()", opts)
+
+	-- only apply if specific server name is matching
+	if client.name == "tsserver" then
+		keymap("n", "<leader>F3", "lua vim.lsp.buf.formatting()", opts)
+	end
+	if client.name == "sumneko_lua" then
+		keymap("n", "<leader>gD", "<cmd>lua vim.lsp.buf.declaration()<CR>", opts)
+		keymap("n", "<leader>gd", "<cmd>lua vim.lsp.buf.definition()<CR>", opts)
+		keymap("n", "<leader>gr", "<cmd>lua vim.lsp.buf.references()<CR>", opts)
+		keymap("n", "K", "<cmd>Lspsaga hover_doc<CR>", opts)
+	end
+end
+
+local capabilities = require("cmp_nvim_lsp").default_capabilities()
+
 -- NOTE: Server configuration help:
 -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md
--- 
+--
 -- NOTE: LUA
 -- https://github.com/sumneko/lua-language-server/blob/master/locale/en-us/setting.lua
-require'lspconfig'.sumneko_lua.setup{
-  settings = {
-    Lua = {
-      runtime = {
-        version = "LuaJIT",
-      },
-      diagnostics = {
-        --enable = true,
-        globals = { "vim" },
-      },
-      workspace = {
-        library = {
-          vim.api.nvim_get_runtime_file("", true),
-        },
-      },
-      telemetry = { enable = false },
-    },
-  },
-  format = {
-    enable = true,
-  },
-  filetypes = { "lua" },
-}
+lspconfig.sumneko_lua.setup({
+	capabilities = capabilities,
+	on_attach = on_attach,
+	settings = {
+		Lua = {
+			runtime = {
+				version = "LuaJIT",
+			},
+			diagnostics = {
+				--enable = true,
+				globals = { "vim" },
+			},
+			workspace = {
+				library = {
+					vim.api.nvim_get_runtime_file("", true),
+				},
+			},
+			telemetry = { enable = false },
+		},
+	},
+	format = {
+		enable = true,
+	},
+	filetypes = { "lua" },
+})
 
 -- NOTE: GO
-require'lspconfig'.gopls.setup{}
+lspconfig.gopls.setup({
+	capabilities = capabilities,
+	on_attach = on_attach,
+})
 
 -- NOTE: HTML
-require'lspconfig'.html.setup{}
+--lspconfig.html.setup({})
+lspconfig["html"].setup({
+	capabilities = capabilities,
+	on_attach = on_attach,
+})
 
 -- NOTE: CSS
-require'lspconfig'.cssls.setup{}
+lspconfig.cssls.setup({
+	capabilities = capabilities,
+	on_attach = on_attach,
+})
 
 -- NOTE: JavaScript NODEJS TypeScript
-require'lspconfig'.tsserver.setup{}
+lspconfig.tsserver.setup({
+	capabilities = capabilities,
+	on_attach = on_attach,
+})
 
 -- NOTE: C++ C
-require'lspconfig'.clangd.setup{}
+lspconfig.clangd.setup({
+	capabilities = capabilities,
+	on_attach = on_attach,
+})
 
 -- NOTE: RUST
-require'lspconfig'.rust_analyzer.setup{}
+lspconfig.rust_analyzer.setup({
+	capabilities = capabilities,
+	on_attach = on_attach,
+})
