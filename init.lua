@@ -9,11 +9,11 @@ require("everith.autocmd")
 
 require("everith.keymaps")
 
-vim.cmd("autocmd InsertEnter * lua vim.fn.system([[mpv --no-terminal $MYVIMRC/sound/oh-yeah.wav]])")
-vim.cmd('autocmd InsertLeave * lua vim.fn.system("mpv --no-terminal $MYVIMRC/sound/oh-yeah.wav")')
-vim.cmd(
-	lua vim.fn.system([[mpv --no-terminal C:\\Users/balaz/AppData/Local/nvim/sound/sound/oh-yeah.wav]])
-)
+-- vim.cmd("autocmd InsertEnter * lua vim.fn.system([[mpv --no-terminal $MYVIMRC/sound/oh-yeah.wav]])")
+-- vim.cmd('autocmd InsertLeave * lua vim.fn.system("mpv --no-terminal $MYVIMRC/sound/oh-yeah.wav")')
+-- vim.cmd(
+-- 	lua vim.fn.system([[mpv --no-terminal C:\\Users/balaz/AppData/Local/nvim/sound/sound/oh-yeah.wav]])
+-- )
 
 --CHANGE DIR
 --:cd %:h

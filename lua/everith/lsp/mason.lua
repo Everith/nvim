@@ -25,7 +25,7 @@ masonLspconfig.setup({
 		"html",
 		"cssls",
 		"tailwindcss",
-		"sumneko_lua",
+		"lua_ls",
 	},
 	automatic_installation = true,
 })

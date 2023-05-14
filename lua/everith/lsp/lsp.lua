@@ -50,7 +50,7 @@ local capabilities = require("cmp_nvim_lsp").default_capabilities()
 --
 -- NOTE: LUA
 -- https://github.com/sumneko/lua-language-server/blob/master/locale/en-us/setting.lua
-lspconfig.sumneko_lua.setup({
+lspconfig.lua_ls.setup({
 	capabilities = capabilities,
 	on_attach = on_attach,
 	settings = {
