@@ -15,10 +15,11 @@ local on_attach = function(client, bufnr)
 	local opts = { noremap = true, silent = true, buffer = bufnr }
 
 	keymap("n", "<space>q", vim.diagnostic.setloclist, opts)
-	keymap("n", "<leader>gD", "<cmd>lua vim.lsp.buf.declaration()<CR>", opts)
-	keymap("n", "<leader>gd", "<cmd> Lspsaga peek_definition<CR>", opts)
-	keymap("n", "<leader>gi", "<cmd>lua vim.lsp.buf.implementation()<CR>", opts)
-	keymap("n", "<leader>gr", "<cmd>lua vim.lsp.buf.references()<CR>", opts)
+	keymap("n", "<leader>lD", "<cmd>lua vim.lsp.buf.declaration()<CR>", opts)
+	keymap("n", "<leader>ld", "<cmd>lua vim.lsp.buf.definition()<CR>", opts)
+	keymap("n", "<leader>lp", "<cmd> Lspsaga peek_definition<CR>", opts)
+	keymap("n", "<leader>li", "<cmd>lua vim.lsp.buf.implementation()<CR>", opts)
+	keymap("n", "<leader>lr", "<cmd>lua vim.lsp.buf.references()<CR>", opts)
 	keymap("n", "K", "<cmd>Lspsaga hover_doc<CR>", opts)
 
 	keymap("n", "<leader>gh", "<cmd>lua vim.lsp.buf.signature_help()<CR>", opts)
@@ -32,12 +33,8 @@ local on_attach = function(client, bufnr)
 	keymap("n", "<leader>cf", "lua vim.lsp.buf.formatting()", opts)
 
 	-- only apply if specific server name is matching
-	if client.name == "tsserver" then
-		keymap("n", "<leader>F3", "lua vim.lsp.buf.formatting()", opts)
-	end
 	if client.name == "sumneko_lua" then
 		keymap("n", "<leader>gD", "<cmd>lua vim.lsp.buf.declaration()<CR>", opts)
-		keymap("n", "<leader>gd", "<cmd>lua vim.lsp.buf.definition()<CR>", opts)
 		keymap("n", "<leader>gr", "<cmd>lua vim.lsp.buf.references()<CR>", opts)
 		keymap("n", "K", "<cmd>Lspsaga hover_doc<CR>", opts)
 	end

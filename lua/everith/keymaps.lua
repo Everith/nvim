@@ -19,7 +19,7 @@ local term_opts = { silent = true }
 --A = ALT
 --leader = " "
 
-keymap("n", "<z>", "<cmd>vim.fn.system([[mpv --no-terminal $MYVIMRC/sound/oh_yeah.wav]])<CR>", opts) -- toggle neo-tree window
+-- keymap("n", "<z>", "<cmd>vim.fn.system([[mpv --no-terminal $MYVIMRC/sound/oh_yeah.wav]])<CR>", opts) -- toggle neo-tree window
 
 --Remap space as leader key
 -- keymap("", "<Space>", "<Nop>", opts)
