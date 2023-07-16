@@ -317,7 +317,8 @@ return packer.startup(function(use)
 	--     config = get_config("indent-blankline"),
 	--   })
 	--
-	--   --   use({ "rhysd/vim-grammarous", ft = { "markdown", "latex" }, config = get_config("grammarous") })
+	use({ "rhysd/vim-grammarous", ft = { "markdown", "latex" } })
+	--
 	--   --   use({ "echasnovski/mini.nvim", branch = "main", config = get_config("mini") })
 	--   --   use({ "axieax/urlview.nvim", cmd = "Urlview", config = get_config("urlview") })
 	--   --   use({ "famiu/bufdelete.nvim" })
