@@ -217,29 +217,26 @@ return packer.startup(function(use)
 
 	-- NOTE: GIT
 	use({
-		"TimUntersberger/neogit",
-		requires = {
-			"nvim-lua/plenary.nvim",
-			{
-				"sindrets/diffview.nvim",
-				cmd = {
-					"DiffviewOpen",
-					"DiffviewClose",
-					"DiffviewToggleFiles",
-					"DiffviewFocusFiles",
-				},
-				config = getConfig("git.diffview"),
-			},
-		},
-		module = "neogit",
-		config = getConfig("git.neogit"),
-	})
-	use({
 		"lewis6991/gitsigns.nvim",
+		ft = { "gitcommit", "diff" },
 		requires = { "nvim-lua/plenary.nvim" },
 		config = getConfig("git.gitsigns"),
+		init = function()
+			-- load gitsigns only when a git file is opened
+			vim.api.nvim_create_autocmd({ "BufRead" }, {
+				group = vim.api.nvim_create_augroup("GitSignsLazyLoad", { clear = true }),
+				callback = function()
+					vim.fn.system("git -C " .. '"' .. vim.fn.expand("%:p:h") .. '"' .. " rev-parse")
+					if vim.v.shell_error == 0 then
+						vim.api.nvim_del_augroup_by_name("GitSignsLazyLoad")
+						vim.schedule(function()
+							require("lazy").load({ plugins = { "gitsigns.nvim" } })
+						end)
+					end
+				end,
+			})
+		end,
 	})
-	use({ "tpope/vim-fugitive" }) -- yeah this is not lua but one of the best Vim plugins ever
 
 	-- NOTE: small plugins
 	use("tpope/vim-surround") -- Add surround functon to "S" in visual mode and more

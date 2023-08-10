@@ -21,6 +21,12 @@ local term_opts = { silent = true }
 
 -- keymap("n", "<z>", "<cmd>vim.fn.system([[mpv --no-terminal $MYVIMRC/sound/oh_yeah.wav]])<CR>", opts) -- toggle neo-tree window
 
+local function shell_call(args)
+	local output = vim.fn.system(args)
+	assert(vim.v.shell_error == 0, "External call failed with error code: " .. vim.v.shell_error .. "\n" .. output)
+end
+-- shell_call({ "mpv", "/srv/data/dev/Sounds/ding-36029.mp3" })
+
 --Remap space as leader key
 -- keymap("", "<Space>", "<Nop>", opts)
 vim.g.mapleader = " "

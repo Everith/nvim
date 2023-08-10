@@ -1,3 +1,5 @@
+-- interval for writing swap file to disk, also used by gitsigns
+
 -- api.nvim_command('enew') -- equivalent to :enew
 --vim.cmd  -- to execute Vim commands e.g. cmd('pwd')
 --vim.fn -> vin.fn.exists('') ==== exists('')  or echo " " | to call Vim functions e.g. fn.bufnr()
@@ -9,23 +11,33 @@
 --vim.bo -- controlls local to buffer specific options
 --vim.b  -- local/buffer specific variables
 
+-------------------------------------- options ------------------------------------------
+
 -- :help options
 vim.opt.guifont = "Hack NF:h12" -- the font used in graphical neovim applications not in terminal
 
-vim.opt.number = true                   -- set numbered lines
-vim.opt.relativenumber = true           -- set relative numbered lines
+-- Numbers
+vim.opt.number = true -- set numbered lines
 vim.opt.numberwidth = 3 -- set number column width to 2 {default 4}
+vim.opt.relativenumber = true -- set relative numbered lines
+vim.opt.ruler = false
 
+-- Indenting
 vim.opt.tabstop = 2 -- insert { n } spaces for a tab
+vim.opt.softtabstop = 2
 vim.opt.shiftwidth = 2 -- the number of spaces inserted for each indentation
 vim.opt.expandtab = true -- convert tabs to spaces
-vim.opt.autoindent = true
--- vim.opt.smartindent = true
+vim.opt.smartindent = true
+-- vim.opt.autoindent = true
 
 vim.opt.wrap = false -- wraping lines to fit in screen
 vim.opt.ignorecase = true -- ignore case in search patterns
-vim.opt.smartcase = true -- watch capitall leters if you typed capiual letters but ignot them if you dont 
+vim.opt.smartcase = true -- watch capitall leters if you typed capiual letters but ignot them if you dont
+vim.opt.mouse = "a"
+vim.opt.fillchars = { eob = " " }
 
+-- vim.opt.clipboard = "unnamedplus" -- allows neovim to access the system clipboard
+vim.opt.clipboard = "unnamedplus" -- allows neovim to access the system clipboard
 vim.opt.hlsearch = true -- highlight all matches on previous search pattern
 vim.opt.cursorline = true -- highlight the current line
 vim.opt.termguicolors = true -- allow true terminal colors
@@ -38,13 +50,24 @@ vim.opt.sidescrolloff = 8 -- keeps lletters betwen the cuesor and the left and r
 vim.opt.splitbelow = true -- force all horizontal splits to go below current window
 vim.opt.splitright = true -- force all vertical splits to go to the right of current window
 
+vim.opt.laststatus = 3 -- global statusline
+vim.opt.showmode = true
 vim.opt.backspace = "indent,eol,start"
--- vim.opt.clipboard = "unnamedplus" -- allows neovim to access the system clipboard
-vim.opt.clipboard:append("unnamedplus") -- allows neovim to access the system clipboard
-vim.opt.iskeyword:append("-") -- considers hello-world as one word insted of two separeted with "-" 
+
+vim.opt.iskeyword:append("-") -- considers hello-world as one word insted of two separeted with "-"
 -- vim.opt.shortmess:append("c")
 
--- TODO: sort thes out if i need them or not 
+-- disable nvim intro
+vim.opt.shortmess:append("sI")
+-- go to previous/next line with h,l,left arrow and right arrow
+-- when cursor reaches end/beginning of line
+vim.opt.whichwrap:append("<>[]hl")
+
+-- TODO: sort thes out if i need them or not
+vim.opt.termguicolors = true
+vim.opt.updatetime = 250
+vim.opt.timeoutlen = 400
+vim.opt.undofile = true
 -- vim.opt.incsearch = true
 -- vim.opt.backup = false -- creates a backup file
 -- vim.opt.completeopt = { "menuone", "noselect" } -- mostly just for cmp
@@ -71,8 +94,8 @@ vim.opt.fileencoding = "utf-8" -- the encoding written to a file
 --NVUI OPTIONS
 --########################################
 if vim.fn.exists("g:nvui") == 1 then
-  vim.cmd("NvuiFrameless 1")
-  vim.cmd("NvuiCmdFontFamily Hack NF:h12")
-  vim.cmd("NvuiCmdFontSize 25.0")
-  vim.cmd("NvuiScrollAnimationDuration 0.2")
+	vim.cmd("NvuiFrameless 1")
+	vim.cmd("NvuiCmdFontFamily Hack NF:h12")
+	vim.cmd("NvuiCmdFontSize 25.0")
+	vim.cmd("NvuiScrollAnimationDuration 0.2")
 end

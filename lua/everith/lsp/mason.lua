@@ -4,7 +4,7 @@ if not ok then
 	return
 end
 
-local masonLspconfigok, masonLspconfig = pcall(require, "mason-lspconfig")
+local masonLspconfigok, masonLSPconfig = pcall(require, "mason-lspconfig")
 if not masonLspconfigok then
 	print("Mason-lspconfig failed to load.")
 	return
@@ -18,7 +18,7 @@ end
 
 mason.setup()
 
-masonLspconfig.setup({
+masonLSPconfig.setup({
 	ensure_installed = {
 		"bashls",
 		"clangd",
@@ -37,7 +37,12 @@ masonNullLs.setup({
 		"prettier", -- javascript javascriptreact typescript typescriptreact vue css scss less html json jsonc yaml markdown markdown.mdx graphql handlebars
 		"stylua", -- lua
 		"cpplint", -- cpp c
+		"clang-format",
 		--    "eslint_d", -- linter for typeScript
 	},
 	automatic_installation = true,
 })
+
+-- add binaries installed by mason.nvim to path
+local is_windows = vim.loop.os_uname().sysname == "Windows_NT"
+vim.env.PATH = vim.fn.stdpath("data") .. "/mason/bin" .. (is_windows and ";" or ":") .. vim.env.PATH

@@ -10,9 +10,21 @@ local api = vim.api
 -- Highlight on yank
 local yankGrp = api.nvim_create_augroup("YankHighlight", { clear = true })
 api.nvim_create_autocmd("TextYankPost", {
-  command = "silent! lua vim.highlight.on_yank()",
-  group = yankGrp,
+	command = "silent! lua vim.highlight.on_yank()",
+	group = yankGrp,
 })
+
+-------------------------------------- autocmds ------------------------------------------
+local autocmd = vim.api.nvim_create_autocmd
+
+-- dont list quickfix buffers
+autocmd("FileType", {
+	pattern = "qf",
+	callback = function()
+		vim.opt_local.buflisted = false
+	end,
+})
+
 -- -- -- go to last loc when opening a buffer
 -- -- api.nvim_create_autocmd(
 -- --   "BufReadPost",
