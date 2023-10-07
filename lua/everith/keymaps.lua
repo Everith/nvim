@@ -22,8 +22,8 @@ local term_opts = { silent = true }
 -- keymap("n", "<z>", "<cmd>vim.fn.system([[mpv --no-terminal $MYVIMRC/sound/oh_yeah.wav]])<CR>", opts) -- toggle neo-tree window
 
 local function shell_call(args)
-	local output = vim.fn.system(args)
-	assert(vim.v.shell_error == 0, "External call failed with error code: " .. vim.v.shell_error .. "\n" .. output)
+  local output = vim.fn.system(args)
+  assert(vim.v.shell_error == 0, "External call failed with error code: " .. vim.v.shell_error .. "\n" .. output)
 end
 -- shell_call({ "mpv", "/srv/data/dev/Sounds/ding-36029.mp3" })
 
@@ -38,7 +38,8 @@ keymap("n", "<leader><leader>", "<cmd>noh<CR>", opts) -- Clear highlights
 keymap("n", "<C-p>", "<cmd>Neotree toggle<CR>", opts) -- toggle neo-tree window
 
 --BUILD.BAT file run and project stuff
-keymap("", "<F5>", ":lua BuildCodes()<CR>", opts)
+keymap("", "<F5>", ":lua BuildCode()<CR>", opts)
+keymap("", "<F6>", ":lua RunCode()<CR>", opts)
 -- keymap("", "<F6>", ":w<CR>:cd %:h<CR>:!build\\AoC.exe<CR>", opts)
 -- keymap("", "<F1>", ":lua Terminal()<CR>", opts)
 keymap("", "K", ":lua GetManual()<CR>", opts)
@@ -51,10 +52,10 @@ keymap("n", "<A-j>", "<C-w><C-j>", opts)
 keymap("n", "<A-k>", "<C-w><C-k>", opts)
 keymap("n", "<M-l>", "<C-w><C-l>", opts)
 -- TABS
-keymap("n", "<leader>to", ":tabnew<CR>", opts) -- open new tab
+keymap("n", "<leader>to", ":tabnew<CR>", opts)   -- open new tab
 keymap("n", "<leader>tc", ":tabclose<CR>", opts) -- close tab
-keymap("n", "<leader>tp", ":tabp<CR>", opts) -- go to previus tab
-keymap("n", "<leader>tn", ":tabn<CR>", opts) -- go to next tab
+keymap("n", "<leader>tp", ":tabp<CR>", opts)     -- go to previus tab
+keymap("n", "<leader>tn", ":tabn<CR>", opts)     -- go to next tab
 -- Resize with arrows
 keymap("n", "<C-Up>", ":resize +2<CR>", opts)
 keymap("n", "<C-Down>", ":resize -2<CR>", opts)
@@ -86,7 +87,7 @@ keymap("v", "<Tab>", ">gv", opts)
 -- DAP DEBUGGING:
 keymap("", "<leader>b", ":lua require'dap'.toggle_breakpoint()<CR>", opts)
 keymap("", "<leader>B", ":lua require'dap'.set_breakpoint(vim.fn.input('Breakpoint condition: ')<CR>", opts)
-keymap("", "<F6>", ":lua require'dap'.continue()<CR>", opts)
+keymap("", "<F7>", ":lua require'dap'.continue()<CR>", opts)
 keymap("", "<F9>", ":lua require'dap'.step_over()<CR>", opts)
 keymap("", "<F10>", ":lua require'dap'.step_into()<CR>", opts)
 keymap("", "<F11>", ":lua require'dap'.step_out()<CR>", opts)
@@ -100,27 +101,27 @@ keymap("", "<leader>gf", ":Git fetch<CR>", opts)
 -- LUASNIP #############################################################
 local status_ok, luasnip = pcall(require, "luasnip")
 if not status_ok then
-	return
+  return
 end
 -- expansion key
 -- this will expand the current item or jump to the next item within the snippet.
 vim.keymap.set({ "i", "s" }, "<c-j>", function()
-	if luasnip.expand_or_jumpable() then
-		luasnip.expand_or_jump()
-	end
+  if luasnip.expand_or_jumpable() then
+    luasnip.expand_or_jump()
+  end
 end, { silent = true })
 -- jump backwards key.
 -- this always moves to the previous item within the snippet
 vim.keymap.set({ "i", "s" }, "<c-k>", function()
-	if luasnip.jumpable(-1) then
-		luasnip.jump(-1)
-	end
+  if luasnip.jumpable(-1) then
+    luasnip.jump(-1)
+  end
 end, { silent = true })
 -- selecting within a list of options.
 vim.keymap.set("i", "<c-h>", function()
-	if luasnip.choice_active() then
-		luasnip.change_choice(1)
-	end
+  if luasnip.choice_active() then
+    luasnip.change_choice(1)
+  end
 end)
 
 -- TELESCOPE ###################################################
