@@ -9,6 +9,7 @@ require("everith.autocmd")
 
 require("everith.keymaps")
 
+GetOS()
 -- vim.cmd("autocmd InsertEnter * lua vim.fn.system([[mpv --no-terminal $MYVIMRC/sound/oh-yeah.wav]])")
 -- vim.cmd('autocmd InsertLeave * lua vim.fn.system("mpv --no-terminal $MYVIMRC/sound/oh-yeah.wav")')
 -- vim.cmd(
