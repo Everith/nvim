@@ -148,6 +148,7 @@ return packer.startup(function(use)
 			"theHamsta/nvim-dap-virtual-text",
 			"nvim-telescope/telescope-dap.nvim",
 			"BurntSushi/ripgrep",
+			"nvim-neotest/nvim-nio",
 		},
 	})
 
