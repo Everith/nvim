@@ -5,7 +5,7 @@ require("everith.colorscheme")
 require("everith.options")
 
 require("everith.scripts")
-require("everith.autocmd")
+-- require("everith.autocmd")
 
 require("everith.keymaps")
 
